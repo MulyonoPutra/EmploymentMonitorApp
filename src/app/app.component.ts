@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ThemeService } from './core/services/theme.service';
-import { RouterOutlet } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
+import { RouterOutlet } from '@angular/router';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { ResponsiveHelperComponent } from './shared/components/responsive-helper
   imports: [NgClass, RouterOutlet, ResponsiveHelperComponent],
 })
 export class AppComponent {
-  title = 'Angular Tailwind';
+  title = 'Employment Monitor';
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) { }
 }

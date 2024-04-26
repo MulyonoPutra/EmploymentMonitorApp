@@ -5,10 +5,7 @@
     <!-- Logo -->
     <div class="relative h-10">
       <div class="flex items-center" *ngIf="menuService.showSideBar">
-        <a class="flex items-center justify-center rounded bg-primary-500 p-2 focus:outline-none focus:ring-1">
-          <svg-icon src="assets/icons/logo.svg"> </svg-icon>
-        </a>
-        <b class="ml-1 pl-2 text-sm font-bold dark:text-night-50">
+        <b class="ml-1 pl-2 mt-2 text-sm font-bold dark:text-night-50">
           {{ appJson.displayName }}
         </b>
       </div>
@@ -16,7 +13,7 @@
         (click)="toggleSidebar()"
         class="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded text-gray-400 transition-all duration-200 focus:outline-none hover:text-gray-500 dark:text-night-400 dark:hover:text-night-300"
         [ngClass]="{ 'rotate-180': !menuService.showSideBar }">
-        <svg-icon src="assets/icons/heroicons/solid/chevron-double-left.svg"> [svgClass]="'h-5 w-5'"> </svg-icon>
+        <svg-icon src="assets/icons/heroicons/solid/chevron-double-left.svg" [svgClass]="'h-5 w-5'"> </svg-icon>
       </button>
     </div>
 

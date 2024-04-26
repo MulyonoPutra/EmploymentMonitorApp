@@ -1,0 +1,16 @@
+<div class="form__group relative" [formGroup]="formGroup">
+  <div class="p-float-label">
+    <input
+      pInputText
+      [id]="fieldName"
+      [name]="fieldName"
+      type="text"
+      [style]="{'width':'100%'}"
+      [ngClass]="classFilled"
+      [formControlName]="fieldName" />
+    <label [for]="fieldName" [ngClass]="classLabel"> {{ label }} </label>
+  </div>
+  @if (isInvalid) {
+  <div class="errors-message">{{ errorMessage }}</div>
+  }
+</div>
