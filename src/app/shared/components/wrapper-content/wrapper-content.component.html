@@ -1,0 +1,16 @@
+<div class="p-6">
+  <div
+    class="block rounded-lg bg-white text-center text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white">
+    <div
+      class="border-b-2 px-6 py-3 font-semibold text-sm text-gray-500">
+      {{ title }}
+    </div>
+    <div class="p-6">
+      <ng-content select="[content]"></ng-content>
+    </div>
+    <div
+      class="border-t-2 px-6 py-3">
+      <ng-content select="[footer]"></ng-content>
+    </div>
+  </div>
+</div>

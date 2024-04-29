@@ -1,17 +1,17 @@
-<div class="p-6">
-  <div class="card-container">
-    <form [formGroup]="form">
-      <app-form-field [formGroup]="form" [label]="'Name'" fieldName="name"  />
-    </form>
-    <div class="mt-6 flex items-center gap-3">
-      <app-button
-        [isLoading]="isLoading"
-      [label]="submitButtonLabel" (clicked)="onSubmit()" [isDisabled]="form.invalid" />
-      <app-button
-        [isCancel]="true"
-        [label]="cancelButtonLabel"
-        [isDisabled]="false"
-        (clicked)="goBack()" />
+<app-wrapper-content [title]="'Category'">
+  <ng-container content>
+    <div class="card-container">
+      <form [formGroup]="form">
+        <app-form-field [formGroup]="form" [label]="'Name'" fieldName="name" />
+      </form>
     </div>
-  </div>
-</div>
+  </ng-container>
+  <ng-container footer>
+    <div class="py-3 flex items-center gap-3">
+      <app-button [type]="'save'" [isLoading]="isLoading" [label]="submitButtonLabel" (clicked)="onSubmit()"
+        [isDisabled]="form.invalid" />
+      <app-button [type]="'cancel'" [label]="cancelButtonLabel" [isDisabled]="false" (clicked)="goBack()" />
+    </div>
+  </ng-container>
+
+</app-wrapper-content>

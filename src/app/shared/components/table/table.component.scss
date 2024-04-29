@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+
+input {
+  @apply block w-full p-4 ps-10 text-sm font-medium bg-white text-gray-900 border border-gray-300 rounded-lg  focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500;
+}
+
+::ng-deep {
+
+  .p-confirm-dialog-reject {
+    @apply border flex-none rounded-md bg-white px-4 py-2.5 text-xs font-semibold text-gray-500 hover:text-primary-500 dark:bg-night-600 dark:text-night-200 dark:hover:bg-night-500 mr-4;
+  }
+
+  .p-confirm-dialog-accept {
+    @apply flex-none rounded-md bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600;
+  }
+}

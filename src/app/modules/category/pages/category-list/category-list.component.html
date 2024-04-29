@@ -1,0 +1,14 @@
+
+<div class="p-4">
+  <app-table
+    [title]="'Category'"
+    [data]="categories"
+    [columns]="tableColumns"
+    [rows]="5"
+    (update)="onUpdate($event)"
+    (create)="onCreate()"
+    (onAccept)="onAccept($event)"
+    (onReject)="onReject()"
+    ></app-table>
+</div>
+<p-toast></p-toast>

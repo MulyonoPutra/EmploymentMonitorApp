@@ -12,7 +12,7 @@ import { handlerHttpError } from '../utils/http-handle-error';
 })
 export class CategoryService {
 
-  env = 'http://localhost:3000';
+  env = 'http://localhost:3000/api/v1';
   constructor(private readonly http: HttpClient) { }
 
   findAll(): Observable<Category[]> {

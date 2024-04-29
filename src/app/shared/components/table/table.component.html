@@ -1,0 +1,51 @@
+<div class="card">
+  <p-table
+    #dt
+    styleClass="p-datatable-striped"
+    [value]="data"
+    [paginator]="true"
+    [rows]="rows"
+    [showCurrentPageReport]="true"
+    [globalFilterFields]="['name']"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 20]">
+    <ng-template pTemplate="caption">
+      <div class="grid grid-cols-1 gap-4">
+        <div class="col-start-1 col-end-3">
+          <h5 class="m-0">Manage {{ title }}</h5>
+        </div>
+        <div class="col-end-7 col-span-2">
+          <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg-icon src="assets/icons/search.svg" [svgClass]="'w-4 h-4 mr-2'"> </svg-icon>
+            </div>
+            <input type="search" (input)="filter(dt, $event)" id="default-search" class="" placeholder="Search" />
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let column of columns" [style.width]="column.width">{{ column.header }}</th>
+        <th style="width: 10%">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td class="text-sm" *ngFor="let column of columns">{{ rowData[column.field] }}</td>
+        <td>
+          <button (click)="onUpdate(rowData)" pButton pRipple type="button" icon="pi pi-pencil"></button>
+          <button (click)="confirm(rowData)" pButton pRipple type="button" icon="pi pi-trash"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" (click)="onCreate()"></p-button>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

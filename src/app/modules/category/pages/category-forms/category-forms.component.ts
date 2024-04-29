@@ -10,6 +10,8 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
 import { CategoryDTO } from '../../domain/dto/category.dto';
 import { Category } from '../../domain/entities/category';
+import { WrapperContentComponent } from 'src/app/shared/components/wrapper-content/wrapper-content.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-category-forms',
@@ -19,12 +21,13 @@ import { Category } from '../../domain/entities/category';
     FormFieldComponent,
     FormsModule,
     ReactiveFormsModule,
+    WrapperContentComponent,
     ButtonComponent,
     ButtonComponent,
   ],
   templateUrl: './category-forms.component.html',
   styleUrls: ['./category-forms.component.scss'],
-  providers: [CategoryService],
+  providers: [CategoryService, MessageService],
 })
 export class CategoryFormsComponent implements OnInit {
   form!: FormGroup;
@@ -40,7 +43,7 @@ export class CategoryFormsComponent implements OnInit {
     private readonly validations: ValidationService,
     private readonly categoryService: CategoryService,
     private readonly location: Location,
-    // private readonly _toastService: ToastService
+    private readonly messageService: MessageService
   ) {
     this.routeId = this.route.snapshot.paramMap.get('id')!;
   }
@@ -89,7 +92,7 @@ export class CategoryFormsComponent implements OnInit {
         this.prepopulateForm(category);
       },
       error: (error: HttpErrorResponse) => {
-        // this._toastService.showError('Error!', error.message);
+        this.errorMessage(error);
       },
       complete: () => { },
     });
@@ -102,33 +105,44 @@ export class CategoryFormsComponent implements OnInit {
   onCreate(): void {
     this.categoryService.create(this.formCtrlValue).subscribe({
       next: () => {
-        this.isLoading = false;
-        // this._toastService.showSuccess('Success!', 'Successfully created!');
+        setTimeout(() => {
+          this.isLoading = false
+        }, 2000);
       },
       error: (error: HttpErrorResponse) => {
-        // this._toastService.showError('Error!', error.message);
+        this.errorMessage(error);
       },
-      complete: () => this.navigateAfterSucceed(),
+      complete: () => {
+        this.navigateAfterSucceed();
+      }
     });
   }
 
   onUpdate(): void {
     this.categoryService.update(this.routeId, this.formCtrlValue).subscribe({
       next: () => {
-        this.isLoading = false;
-        // this._toastService.showSuccess('Success!', 'Successfully updated!');
+        setTimeout(() => {
+          this.isLoading = false
+        }, 2000);
       },
       error: (error: HttpErrorResponse) => {
-        // this._toastService.showError('Error!', error.message);
+        this.errorMessage(error);
       },
-      complete: () => this.navigateAfterSucceed(),
+      complete: () => {
+        this.successMessage();
+        this.navigateAfterSucceed();
+      },
     });
   }
 
   navigateAfterSucceed(): void {
-    timer(1000)
+    timer(3000)
       .pipe(take(1))
-      .subscribe(() => this.router.navigateByUrl('/categories/collections'));
+      .subscribe(() => {
+        this.router.navigateByUrl('/category/list').then(() => {
+          this.successMessage();
+        })
+      });
   }
 
   onSubmit(): void {
@@ -142,5 +156,13 @@ export class CategoryFormsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  successMessage(): void {
+    this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully updated!', life: 3000 });
+  }
+
+  errorMessage(error: HttpErrorResponse): void {
+    this.messageService.add({ severity: 'error', summary: error.status.toString(), detail: error.message, life: 3000 });
   }
 }
