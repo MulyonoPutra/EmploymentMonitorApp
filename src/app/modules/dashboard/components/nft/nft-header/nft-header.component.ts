@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { ButtonModule } from 'primeng/button';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
     selector: 'app-nft-header',
@@ -11,10 +12,11 @@ import { ButtonModule } from 'primeng/button';
       ButtonComponent,
       ButtonModule
     ],
+  providers: [ToastService]
 })
 export class NftHeaderComponent implements OnInit {
   isLoading = false;
-  constructor() {}
+  constructor(private readonly toastService: ToastService) {}
 
   ngOnInit(): void {}
 
@@ -25,6 +27,8 @@ export class NftHeaderComponent implements OnInit {
 
     setTimeout(() => {
       this.isLoading = false
+      this.toastService.showSuccess('Success!', 'logged in successfully');
     }, 2000);
+
   }
 }

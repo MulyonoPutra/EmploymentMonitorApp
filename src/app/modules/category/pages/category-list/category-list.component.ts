@@ -57,7 +57,6 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   onAccept(id: string): void {
-    console.log('handleAccept: ', id);
     this.categoryService
       .remove(id)
       .pipe(takeUntil(this.destroyed))

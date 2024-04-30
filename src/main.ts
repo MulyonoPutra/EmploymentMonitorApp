@@ -1,22 +1,35 @@
+import { AuthInterceptor, AuthInterceptorProvider } from './app/core/interceptor/auth.interceptor';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom } from '@angular/core'
 
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageService } from 'primeng/api';
 import { environment } from './environments/environment'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
 if (environment.production) {
     enableProdMode()
-    //show this warning only on prod mode
     if (window) {
         selfXSSWarning();
     }
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [importProvidersFrom(BrowserModule, AppRoutingModule, BrowserAnimationsModule)]
+  providers: [
+    MessageService,
+    provideAnimations(),
+    importProvidersFrom(BrowserModule, AppRoutingModule, BrowserAnimationsModule),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    HttpClientModule,
+    provideHttpClient()
+  ]
 })
     .catch((err) => console.error(err))
 

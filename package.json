@@ -45,8 +45,10 @@
     "angular-svg-icon": "^13.0.0",
     "apexcharts": "^3.49.0",
     "ng-apexcharts": "^1.10.0",
+    "ngx-cookie-service": "^17.1.0",
     "primeicons": "^7.0.0",
     "primeng": "^17.14.1",
+    "quill": "^2.0.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.3.0",
     "zone.js": "^0.14.4"

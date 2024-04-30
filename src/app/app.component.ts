@@ -2,14 +2,17 @@ import { Component } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { RouterOutlet } from '@angular/router';
-import { ThemeService } from './core/services/theme.service';
+import { ThemeService } from './shared/services/theme.service';
+import { ToastComponent } from './shared/components/toast/toast.component';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NgClass, RouterOutlet, ResponsiveHelperComponent],
+  imports: [NgClass, RouterOutlet, ResponsiveHelperComponent, ToastComponent, ToastModule],
+
 })
 export class AppComponent {
   title = 'Employment Monitor';

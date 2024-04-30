@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, F
 import { ActivatedRoute, Router } from '@angular/router';
 import { timer, take } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { ValidationService } from 'src/app/core/services/validation.service';
+import { ValidationService } from 'src/app/shared/services/validation.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
 import { CategoryDTO } from '../../domain/dto/category.dto';
