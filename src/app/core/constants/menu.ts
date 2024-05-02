@@ -24,6 +24,15 @@ export class Menu {
             { label: 'Category List', route: '/category/list' },
           ],
         },
+        {
+          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          label: 'Activity',
+          route: '/activity',
+          children: [
+            { label: 'Activity Forms', route: '/activity/forms' },
+            { label: 'Activity List', route: '/activity/list' },
+          ],
+        },
       ],
     },
     {
@@ -39,16 +48,6 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/bell.svg',
           label: 'Notifications',
           route: '/gift',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/folder.svg',
-          label: 'Folders',
-          route: '/folders',
-          children: [
-            { label: 'Current Files', route: '/folders/current-files' },
-            { label: 'Downloads', route: '/folders/download' },
-            { label: 'Trash', route: '/folders/trash' },
-          ],
         },
       ],
     },

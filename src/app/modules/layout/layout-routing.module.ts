@@ -16,7 +16,14 @@ const routes: Routes = [
     component: LayoutComponent,
     loadChildren: () =>
       import('../category/category.module').then((m) => m.CategoryModule),
-    // canActivate: [AuthenticationGuard],
+    
+  },
+  {
+    path: 'activity',
+    component: LayoutComponent,
+    loadChildren: () =>
+      import('../activity/activity.module').then((m) => m.ActivityModule),
+    canActivate: [AuthenticationGuard],
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'error/404' },

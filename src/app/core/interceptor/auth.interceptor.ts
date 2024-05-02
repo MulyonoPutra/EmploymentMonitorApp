@@ -102,7 +102,7 @@ export class AuthInterceptor implements HttpInterceptor {
     alert('refresh token is expired, please login again.');
 
     this.storageService.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/sign-in']);
   }
 
   private setCredentials(newToken: HttpResponseEntity<Credentials>) {

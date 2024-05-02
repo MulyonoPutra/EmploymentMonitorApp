@@ -21,12 +21,18 @@ export class AuthenticationService {
     private readonly storageService: StorageService
   ) { }
 
-  login(body: Login): Observable<Credentials> {
+  login(body: Login): Observable<HttpResponseEntity<Credentials>> {
     return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/login`, body).pipe(
       map((response) => {
         this.storageService.setAccessToken(response.data.accessToken);
         this.storageService.setRefreshToken(response.data.refreshToken);
-        return response.data;
+        return {
+          message: response.message,
+          data: {
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+          },
+        };
       }),
       catchError((error: HttpErrorResponse) => handlerHttpError(error))
     );

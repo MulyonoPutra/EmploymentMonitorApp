@@ -26,7 +26,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
         NgIf,
         FormFieldComponent
     ],
-  providers: [AuthenticationService, MessageService, ToastService],
+  providers: [AuthenticationService, ToastService],
 })
 export class SignInComponent implements OnInit {
   form!: FormGroup;
@@ -72,17 +72,12 @@ export class SignInComponent implements OnInit {
   login(): void {
     this.authService.login(this.formCtrlValue).subscribe({
       next: () => {
-        timer(2000)
-          .pipe(take(1))
-          .subscribe(() => {
-            this.successMessage();
-          });
+        this.successMessage();
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage(error);
       },
       complete: () => {
-        this.toastService.showSuccess('Success!', 'logged in successfully');
         this.navigateAfterSucceed();
       }
     });

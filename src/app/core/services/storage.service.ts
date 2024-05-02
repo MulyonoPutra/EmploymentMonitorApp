@@ -19,28 +19,29 @@ export class StorageService {
   private refreshToken: string | null = null;
   constructor(private cookieService: CookieService) { }
 
-  public setAccessToken(token: string | null): void {
-    this.token = token;
-    this.cookieService.delete(AuthKey.AccessToken);
-    this.cookieService.set(AuthKey.AccessToken, token!);
+  public setAccessToken(token: string): void {
+    sessionStorage.removeItem(AuthKey.AccessToken);
+    if(token){
+      sessionStorage.setItem(AuthKey.AccessToken, token);
+    }
   }
 
   public getAccessToken(): string {
-    return this.cookieService.get(AuthKey.AccessToken);
+    return sessionStorage.getItem(AuthKey.AccessToken)!;
   }
 
   public setRefreshToken(token: string): void {
     this.refreshToken = token;
-    this.cookieService.delete(AuthKey.RefreshToken);
-    this.cookieService.set(AuthKey.RefreshToken, token);
+    sessionStorage.removeItem(AuthKey.RefreshToken);
+    sessionStorage.setItem(AuthKey.RefreshToken, token);
   }
 
   public getRefreshToken(): string {
-    return this.cookieService.get(AuthKey.RefreshToken);
+    return sessionStorage.getItem(AuthKey.RefreshToken)!;
   }
 
   public removeRefreshToken(): void {
-    this.cookieService.delete(AuthKey.RefreshToken);
+    sessionStorage.removeItem(AuthKey.RefreshToken);
   }
 
   public isAuthenticate(): boolean {
@@ -51,18 +52,23 @@ export class StorageService {
     return true;
   }
 
+  isLoggedIn(): boolean {
+    const authToken = sessionStorage.getItem(AuthKey.AccessToken);
+    return !!authToken;
+  }
+
   public setRole(role: string): void {
     this.role = role;
-    this.cookieService.delete(AuthKey.Role);
-    this.cookieService.set(AuthKey.Role, role);
+    sessionStorage.removeItem(AuthKey.Role);
+    sessionStorage.setItem(AuthKey.Role, role);
   }
 
   public getRole(): string {
-    return this.cookieService.get(AuthKey.Role);
+    return sessionStorage.getItem(AuthKey.Role)!;
   }
 
   public getUserIdentity(): string {
-    return this.cookieService.get(AuthKey.UserId);
+    return sessionStorage.getItem(AuthKey.UserId)!;
   }
 
   public clear(): void {
