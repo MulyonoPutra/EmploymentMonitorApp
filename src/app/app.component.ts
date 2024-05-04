@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { NgClass } from '@angular/common';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { RouterOutlet } from '@angular/router';
@@ -12,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [NgClass, RouterOutlet, ResponsiveHelperComponent, ToastComponent, ToastModule],
+  providers: [MessageService]
 
 })
 export class AppComponent {

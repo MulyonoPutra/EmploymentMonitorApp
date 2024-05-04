@@ -5,6 +5,7 @@ import { Activity } from 'src/app/modules/activity/domain/entities/activity';
 import { CreateActivityDto } from 'src/app/modules/activity/domain/dto/create-activity.dto';
 import { HttpResponseEntity } from '../models/http-response-entity';
 import { Injectable } from '@angular/core';
+import { StorageService } from './storage.service';
 import { UpdateActivityDto } from 'src/app/modules/activity/domain/dto/update-activity.dto';
 import { handlerHttpError } from '../utils/http-handle-error';
 
@@ -14,7 +15,9 @@ import { handlerHttpError } from '../utils/http-handle-error';
 export class ActivityService {
 
   env = 'http://localhost:3000/api/v1';
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private readonly http: HttpClient,
+    private storageService: StorageService) { }
 
   findAll(): Observable<Activity[]> {
     return this.http
@@ -23,7 +26,12 @@ export class ActivityService {
   }
 
   findOne(id: string): Observable<Activity> {
-    return this.http.get<HttpResponseEntity<Activity>>(`${this.env}/activity/${id}`).pipe(
+    const token = this.storageService.getAccessToken();
+    return this.http.get<HttpResponseEntity<Activity>>(`${this.env}/activity/${id}`,  {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).pipe(
       map((response) => response.data),
       catchError((error: HttpErrorResponse) => handlerHttpError(error))
     );

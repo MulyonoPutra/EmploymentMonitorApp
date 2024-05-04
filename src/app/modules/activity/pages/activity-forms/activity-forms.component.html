@@ -1,1 +1,52 @@
-<p>activity-forms works!</p>,
+<app-wrapper-content [title]="'Activity'">
+  <ng-container content>
+    <div class="card-container">
+      <form [formGroup]="form">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Company Name'" fieldName="companyName" />
+          </div>
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Position'" fieldName="position" />
+          </div>
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Location'" fieldName="location" />
+          </div>
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Job Type'" fieldName="jobType" />
+          </div>
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Status'" fieldName="status" />
+          </div>
+          <div>
+            <app-form-field [formGroup]="form" [label]="'Platform'" fieldName="platform" />
+          </div>
+          <div>
+            <app-calendar [formGroup]="form" [label]="'Applied'" fieldName="appliedOn"></app-calendar>
+          </div>
+          <div>
+            <app-dropdown
+              [formGroup]="form"
+              [label]="'CategoryId'"
+              fieldName="categoryId"
+              placeholder="Select Category"
+              [data]="categories"
+              [optionLabel]="'name'" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+  <ng-container footer>
+    <div class="flex items-center gap-3 py-3">
+      <app-button
+        [type]="'save'"
+        [isLoading]="isLoading"
+        [label]="submitLabel"
+        (clicked)="onSubmit()"
+        [isDisabled]="form.invalid" />
+      <app-button [type]="'cancel'" [label]="cancelLabel" [isDisabled]="false" (clicked)="goBack()" />
+      
+    </div>
+  </ng-container>
+</app-wrapper-content>

@@ -7,5 +7,4 @@ export interface CreateActivityDto {
   platform: string
   appliedOn: string
   categoryId: string
-  userId?: string
 }

@@ -23,7 +23,7 @@ export class AuthenticationGuard {
       timer(2000)
         .pipe(take(1))
         .subscribe(() => {
-          this.toast.showWarnToast(
+          this.toast.showWarning(
             'Warning',
             'You must login first to access this resource.'
           );

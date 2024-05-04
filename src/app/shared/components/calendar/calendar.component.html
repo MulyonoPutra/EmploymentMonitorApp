@@ -1,0 +1,10 @@
+<div class="py-3 relative" [formGroup]="formGroup">
+  <p-floatLabel>
+    <p-calendar [showIcon]="true" [showOnFocus]="false" inputId="buttondisplay" [style]="{'width':'100%'}"
+      [ngClass]="classFilled" [formControlName]="fieldName" inputId="calendar" />
+    <label for="calendar">{{label}}</label>
+  </p-floatLabel>
+  @if (isInvalid) {
+  <div class="errors-message">{{ errorMessage }}</div>
+  }
+</div>

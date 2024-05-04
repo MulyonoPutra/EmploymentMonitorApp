@@ -10,6 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Subject, take, takeUntil, timer } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-category-list',
@@ -29,7 +30,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly categoryService: CategoryService,
-    private messageService: MessageService
+    private readonly toastService: ToastService,
+
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
         this.categories = response
       },
       error: (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: error.status.toString(), detail: error.message, life: 3000 });
+        this.errorMessage(error);
       },
     })
   }
@@ -61,16 +63,16 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       .remove(id)
       .pipe(takeUntil(this.destroyed))
       .subscribe({
-        next: () => { },
+        next: () => {
+          this.successMessage('You have successfully removed');
+        },
         error: (error: HttpErrorResponse) => {
-          this.messageService.add({ severity: 'error', summary: error.status.toString(), detail: error.message, life: 3000 });
+          this.errorMessage(error);
         },
         complete: () => {
-          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed' });
           this.navigateAfterSucceed();
         },
       });
-
   }
 
   navigateAfterSucceed(): void {
@@ -84,7 +86,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   onReject() {
-    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have cancelled this operation', life: 3000 });
+    this.toastService.showError('Rejected!', 'You have cancelled this operation');
   }
 
   onCreate(): void {
@@ -95,6 +97,14 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLInputElement;
     const value = target.value
     table.filterGlobal(value, 'contains')
+  }
+
+  successMessage(message: string): void {
+    this.toastService.showSuccess('Success!', message);
+  }
+
+  errorMessage(error: HttpErrorResponse): void {
+    this.toastService.showError('Error!', error.message);
   }
 
   ngOnDestroy() {

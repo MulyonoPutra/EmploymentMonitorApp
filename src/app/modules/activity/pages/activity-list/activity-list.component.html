@@ -1,1 +1,13 @@
-<p>activity-list works!</p>,
+
+<div class="p-4 z-0">
+  <app-table
+    [title]="'Activity'"
+    [data]="activity"
+    [columns]="tableColumns"
+    [rows]="5"
+    (update)="onUpdate($event)"
+    (create)="onCreate()"
+    (onAccept)="onAccept($event)"
+    (onReject)="onReject()"
+    ></app-table>
+</div>

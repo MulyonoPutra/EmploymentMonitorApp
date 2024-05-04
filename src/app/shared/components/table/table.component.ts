@@ -7,6 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { Category } from 'src/app/modules/category/domain/entities/category';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TagComponent } from '../tag/tag.component';
+import { TextOverflowPipe } from '../../pipes/text-overflow.pipe';
 import { ToastModule } from 'primeng/toast';
 
 @Component({
@@ -19,6 +21,8 @@ import { ToastModule } from 'primeng/toast';
     AngularSvgIconModule,
     ConfirmDialogModule,
     ToastModule,
+    TextOverflowPipe,
+    TagComponent
   ],
   templateUrl: './table.component.html',
   styleUrls: [ './table.component.scss' ],

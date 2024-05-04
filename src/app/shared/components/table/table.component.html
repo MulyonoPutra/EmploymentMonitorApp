@@ -34,7 +34,17 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
       <tr>
-        <td class="text-sm" *ngFor="let column of columns">{{ rowData[column.field] }}</td>
+        @for (column of columns; track $index) {
+          @if(rowData[column.field] === rowData.id) {
+            <td class="text-sm">{{ rowData[column.field] | appTextOverflow: 10 }}</td>
+          } @else if (rowData[column.field] === rowData.appliedOn) {
+            <td class="text-sm">{{ rowData[column.field] | date: 'dd/MM/yyyy' }}</td>
+          } @else if (rowData[column.field] === rowData.status) {
+            <app-tag [status]="rowData[column.field]"></app-tag>
+          } @else {
+            <td class="text-sm">{{ rowData[column.field] }}</td>
+          }
+        }
         <td>
           <button (click)="onUpdate(rowData)" pButton pRipple type="button" icon="pi pi-pencil"></button>
           <button (click)="confirm(rowData)" pButton pRipple type="button" icon="pi pi-trash"></button>

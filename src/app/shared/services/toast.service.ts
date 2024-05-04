@@ -15,11 +15,11 @@ export class ToastService {
     this.showToast(summary, detail, 'success');
   }
 
-  async showInfoToast(summary: string,
+  async showInfo(summary: string,
     detail: string): Promise<void> {
     this.showToast(summary, detail, 'info');
   }
-  async showWarnToast(summary: string,
+  async showWarning(summary: string,
     detail: string): Promise<void> {
     this.showToast(summary, detail, 'warn');
   }
@@ -37,7 +37,6 @@ export class ToastService {
       severity: severity,
       summary: summary,
       detail: detail,
-      sticky: this.STICKY,
       life: 3000
     });
   }
