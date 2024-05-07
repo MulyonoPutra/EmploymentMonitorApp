@@ -22,11 +22,6 @@
   }
 }
 
-.dropdown {
-  width: 100%;
-  border: 1px solid #D0D0D0;
-}
-
 ::ng-deep {
   .p-dropdown-panel .p-dropdown-items .p-dropdown-item .p-highlight .p-focus {
     font-size: 12px;
@@ -40,6 +35,7 @@
     font-size: 12px;
     font-weight: 500;
     text-align: left !important;
+
   }
 
   .p-dropdown .p-dropdown-label {
@@ -48,9 +44,15 @@
     font-size: 12px;
     text-align: left !important;
     font-weight: 500;
+    @apply dark:text-night-50;
   }
 
   .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
     @apply text-white bg-primary-500;
+  }
+
+  .p-dropdown {
+    @apply dark:bg-night-700 bg-white dark:text-white;
+    
   }
 }

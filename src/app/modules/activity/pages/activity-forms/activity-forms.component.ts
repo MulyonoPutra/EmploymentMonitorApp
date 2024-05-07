@@ -21,6 +21,7 @@ import { Status } from '../../domain/entities/status';
 import { JobType } from '../../domain/entities/job-type';
 import { Platform } from '../../domain/entities/platform';
 import { FormSelectComponent } from 'src/app/shared/components/form-select/form-select.component';
+import { DropdownModule } from 'primeng/dropdown';
 @Component({
   selector: 'app-activity-forms',
   standalone: true,
@@ -33,7 +34,8 @@ import { FormSelectComponent } from 'src/app/shared/components/form-select/form-
     ButtonComponent,
     DropdownComponent,
     CalendarComponent,
-    FormSelectComponent
+    FormSelectComponent,
+    DropdownModule
   ],
   templateUrl: './activity-forms.component.html',
   styleUrls: [ './activity-forms.component.scss' ],
@@ -49,8 +51,8 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   isLoading = false;
   categories!: Category[];
   status!: Status[];
-  jobType!: JobType[];
-  platform!: Platform[];
+  jobTypes!: JobType[];
+  platforms!: Platform[];
 
   constructor(
     private readonly fb: FormBuilder,
@@ -63,6 +65,7 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
     private readonly categoryService: CategoryService
   ) {
     this.routeId = this.route.snapshot.paramMap.get('id')!;
+
   }
 
   ngOnInit(): void {
@@ -106,19 +109,16 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   }
 
   prepopulateForm(activity: Activity): void {
-    console.log(activity);
-    if(activity){
-      this.form.patchValue({
-        companyName: activity.companyName,
-        position: activity.position,
-        location: activity.location,
-        jobType: activity.jobType,
-        status: activity.status,
-        platform: activity.platform,
-        appliedOn: new Date(activity.appliedOn),
-        categoryId: activity.category,
-      });
-    }
+    this.form.patchValue({
+      companyName: activity.companyName,
+      position: activity.position,
+      location: activity.location,
+      jobType: activity.jobType,
+      status: activity.status,
+      platform: activity.platform,
+      appliedOn: new Date(activity.appliedOn),
+      categoryId: activity.category,
+    });
   }
 
   get formCtrlValue() {
@@ -126,9 +126,9 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
       companyName: this.form.get('companyName')?.value,
       position: this.form.get('position')?.value,
       location: this.form.get('location')?.value,
-      jobType: this.form.get('jobType')?.value.name,
-      status: this.form.get('status')?.value.name,
-      platform: this.form.get('platform')?.value.name,
+      jobType: this.form.get('jobType')?.value,
+      status: this.form.get('status')?.value,
+      platform: this.form.get('platform')?.value,
       appliedOn: this.form.get('appliedOn')?.value,
       categoryId: this.form.get('categoryId')?.value.id,
     };
@@ -159,7 +159,7 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   findPlatform(): void {
     this.activityService.findPlatform().pipe(takeUntil(this.destroyed)).subscribe({
       next: (response) => {
-        this.platform = response;
+        this.platforms = response;
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage(error);
@@ -170,7 +170,7 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   findJobType(): void {
     this.activityService.findJobTypes().pipe(takeUntil(this.destroyed)).subscribe({
       next: (response) => {
-        this.jobType = response;
+        this.jobTypes = response;
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage(error);

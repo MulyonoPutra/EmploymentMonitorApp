@@ -18,8 +18,7 @@
               [label]="'Job Type'"
               fieldName="jobType"
               placeholder="Select Job Type"
-              [data]="jobType"
-              [optionLabel]="'name'" />
+              [data]="jobTypes" />
           </div>
           <div>
             <app-dropdown
@@ -27,8 +26,7 @@
               [label]="'Status'"
               fieldName="status"
               placeholder="Select Status"
-              [data]="status"
-              [optionLabel]="'name'" />
+              [data]="status" />
           </div>
           <div>
             <app-dropdown
@@ -36,8 +34,7 @@
               [label]="'platform'"
               fieldName="platform"
               placeholder="Select Platform"
-              [data]="platform"
-              [optionLabel]="'name'"  />
+              [data]="platforms" />
           </div>
           <div>
             <app-calendar [formGroup]="form" [label]="'Applied'" fieldName="appliedOn"></app-calendar>
@@ -45,7 +42,7 @@
           <div>
             <app-dropdown
               [formGroup]="form"
-              [label]="'CategoryId'"
+              [label]="'categoryId'"
               fieldName="categoryId"
               placeholder="Select Category"
               [data]="categories"

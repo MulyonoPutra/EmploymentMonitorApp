@@ -32,14 +32,14 @@ export class ActivityService {
     return this.http.get<any>(`assets/data/job-type.json`).pipe(
       map((response) => response),
       catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );;
+    );
   }
 
   findAppliedStatus(): Observable<any> {
     return this.http.get<any>(`assets/data/status.json`).pipe(
       map((response) => response),
       catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );;
+    );
   }
 
   findPlatform(): Observable<any> {

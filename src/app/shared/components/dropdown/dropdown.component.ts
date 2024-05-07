@@ -38,7 +38,7 @@ import { ValidationService } from '../../services/validation.service';
     @Input() label!: string;
     @Input() fieldName!: string;
     @Input() formGroup!: FormGroup;
-    @Input() optionLabel!: any;
+    @Input() optionLabel?: string;
     @Input( {required: false} ) isDisabled?: boolean;
     @Input() placeholder!: string;
 

@@ -3,7 +3,26 @@
 }
 
 input {
-  @apply block w-full p-4 ps-10 text-sm font-medium bg-white text-gray-900 border border-gray-300 rounded-lg  focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500;
+  @apply
+    block
+    w-full
+    p-4
+    ps-10
+    text-sm
+    font-medium
+    bg-white
+    text-gray-900
+    border
+    border-gray-300
+    rounded-lg
+    focus:ring-primary-500
+    focus:border-primary-500
+    dark:bg-night-400
+    dark:border-night-400
+    dark:placeholder-night-400
+    dark:text-white
+    dark:focus:ring-primary-500
+    dark:focus:border-primary-500;
 }
 
 ::ng-deep {
@@ -13,5 +32,34 @@ input {
 
   .p-confirm-dialog-accept {
     @apply flex-none rounded-md bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600;
+  }
+
+  .p-datatable .p-datatable-header {
+    @apply dark:bg-night-700 bg-white rounded-t-lg;
+    color: #374151;
+    border: 0.5px solid #42424201;
+    border-width: 1px 0 1px 0;
+    padding: 1rem 1rem;
+    font-weight: 700;
+  }
+
+  .p-datatable .p-paginator-bottom {
+    @apply dark:bg-night-700 bg-white rounded-t-lg rounded-b-lg;
+  }
+
+  .p-dropdown {
+    @apply dark:bg-night-700 bg-white rounded-t-lg border;
+  }
+
+  .p-datatable .p-datatable-tbody>tr {
+    @apply dark:bg-night-700 bg-white rounded-t-lg rounded-b-lg dark:text-gray-200;
+  }
+
+  .p-datatable .p-datatable-thead>tr>th {
+    @apply dark:bg-night-700 bg-white dark:text-gray-200;
+  }
+
+  .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
+    @apply dark:bg-night-500 bg-gray-200 dark:text-gray-200;
   }
 }
