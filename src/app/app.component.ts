@@ -1,6 +1,8 @@
+import { CommonModule, NgClass } from '@angular/common';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { NgClass } from '@angular/common';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './shared/services/theme.service';
@@ -12,7 +14,7 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [NgClass, RouterOutlet, ResponsiveHelperComponent, ToastComponent, ToastModule],
+  imports: [CommonModule , NgClass, RouterOutlet, ResponsiveHelperComponent, ToastComponent, ToastModule],
   providers: [MessageService]
 
 })

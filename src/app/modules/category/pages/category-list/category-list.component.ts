@@ -92,13 +92,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   onCreate(): void {
     this.router.navigate(['category/forms']);
   }
-
-  filter(table: Table, event: Event) {
-    const target = event.target as HTMLInputElement;
-    const value = target.value
-    table.filterGlobal(value, 'contains')
-  }
-
+  
   successMessage(message: string): void {
     this.toastService.showSuccess('Success!', message);
   }

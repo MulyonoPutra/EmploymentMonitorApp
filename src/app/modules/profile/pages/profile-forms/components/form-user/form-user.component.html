@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <div class="grid grid-cols-2 gap-4">
+    <app-form-field [formGroup]="form" [label]="'Name'" fieldName="name" />
+    <app-form-field [formGroup]="form" [label]="'Email'" fieldName="email" />
+    <app-form-field [formGroup]="form" [label]="'Summary'" fieldName="summary" />
+    <app-calendar [formGroup]="form" [label]="'birthday'" fieldName="birthday"></app-calendar>
+    <app-form-field [formGroup]="form" [label]="'Phone'" fieldName="phone" />
+  </div>
+  <div class="flex items-center gap-3 py-3">
+    <app-button
+      [type]="'save'"
+      [isLoading]="isLoading"
+      [label]="'Update'"
+      (clicked)="onSubmit()"
+      [isDisabled]="form.invalid" />
+    <app-button [type]="'cancel'" [label]="cancelLabel" [isDisabled]="false" (clicked)="goBack()" />
+  </div>
+</form>

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "name": "Applied",
+    "color": "#FF5733"
+  },
+  {
+    "id": "f7b6d948-0c94-4a03-a3e7-bb9a5a4b4096",
+    "name": "Under Review",
+    "color": "#AACCFF"
+  },
+  {
+    "id": "16fd2706-8baf-433b-82eb-8c7fada847da",
+    "name": "Interviewing",
+    "color": "#66FF99"
+  },
+  {
+    "id": "1a3b5c6e-8d7f-4a6b-b0c9-d2e4f5a6b7c8",
+    "name": "Offer Extended",
+    "color": "#FF00FF"
+  },
+  {
+    "id": "12345678-1234-5678-1234-567812345678",
+    "name": "Offer Accepted",
+    "color": "#FFFF00"
+  },
+  {
+    "id": "98765432-9876-5432-9876-543298765432",
+    "name": "Offer Declined",
+    "color": "#FF4500"
+  },
+  {
+    "id": "a1b2c3d4-a1b2-c3d4-a1b2-c3d4a1b2c3d4",
+    "name": "Onboarding",
+    "color": "#008080"
+  },
+  {
+    "id": "b1c2d3e4-b1c2-d3e4-b1c2-d3e4b1c2d3e4",
+    "name": "Training",
+    "color": "#800080"
+  },
+  {
+    "id": "c1d2e3f4-c1d2-e3f4-c1d2-e3f4c1d2e3f4",
+    "name": "Active",
+    "color": "#008000"
+  },
+  {
+    "id": "d1e2f3g4-d1e2-f3g4-d1e2-f3g4d1e2f3g4",
+    "name": "Inactive",
+    "color": "#0000FF"
+  },
+  {
+    "id": "e1f2g3h4-e1f2-g3h4-e1f2-g3h4e1f2g3h4",
+    "name": "Withdrawn",
+    "color": "#808080"
+  },
+  {
+    "id": "f1g2h3i4-f1g2-h3i4-f1g2-h3i4f1g2h3i4",
+    "name": "Cancelled",
+    "color": "#FF1493"
+  },
+  {
+    "id": "g1h2i3j4-g1h2-i3j4-g1h2-i3j4g1h2i3j4",
+    "name": "Pending",
+    "color": "#FFD700"
+  },
+  {
+    "id": "h1i2j3k4-h1i2-j3k4-h1i2-j3k4h1i2j3k4",
+    "name": "Final Round",
+    "color": "#800000"
+  },
+  {
+    "id": "i1j2k3l4-i1j2-k3l4-i1j2-k3l4i1j2k3l4",
+    "name": "Awaiting Feedback",
+    "color": "#6A5ACD"
+  },
+  {
+    "id": "j1k2l3m4-j1k2-l3m4-j1k2-l3m4j1k2l3m4",
+    "name": "Pending Approval",
+    "color": "#00CED1"
+  }
+]

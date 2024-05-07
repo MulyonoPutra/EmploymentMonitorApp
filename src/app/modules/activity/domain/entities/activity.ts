@@ -10,11 +10,10 @@ export interface Activity {
   category: Category
   appliedOn: string
   platform: string
-  user: User
-}
+  user: {
+    name: string
+    email: string
+    avatar: string
+  }
 
-export interface User {
-  name: string
-  email: string
-  avatar: string
 }

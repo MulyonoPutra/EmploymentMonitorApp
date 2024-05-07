@@ -16,8 +16,11 @@ import { FormFields } from '../../domain/entities/form-fields';
 import { DropdownComponent } from 'src/app/shared/components/dropdown/dropdown.component';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { Category } from 'src/app/modules/category/domain/entities/category';
-import { DropdownModule } from 'primeng/dropdown';
 import { CalendarComponent } from 'src/app/shared/components/calendar/calendar.component';
+import { Status } from '../../domain/entities/status';
+import { JobType } from '../../domain/entities/job-type';
+import { Platform } from '../../domain/entities/platform';
+import { FormSelectComponent } from 'src/app/shared/components/form-select/form-select.component';
 @Component({
   selector: 'app-activity-forms',
   standalone: true,
@@ -29,12 +32,12 @@ import { CalendarComponent } from 'src/app/shared/components/calendar/calendar.c
     WrapperContentComponent,
     ButtonComponent,
     DropdownComponent,
-    DropdownModule,
-    CalendarComponent
+    CalendarComponent,
+    FormSelectComponent
   ],
   templateUrl: './activity-forms.component.html',
   styleUrls: [ './activity-forms.component.scss' ],
-  providers: [ToastService],
+  providers: [ToastService, ActivityService, CategoryService, ValidationService],
 })
 export class ActivityFormsComponent implements OnInit, OnDestroy {
 
@@ -45,7 +48,9 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   private destroyed = new Subject();
   isLoading = false;
   categories!: Category[];
-  category?: Category;
+  status!: Status[];
+  jobType!: JobType[];
+  platform!: Platform[];
 
   constructor(
     private readonly fb: FormBuilder,
@@ -63,8 +68,10 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formInitialized();
     this.initPageFromRouteId();
-    this.formFieldsArray();
     this.findCategory();
+    this.findStatus();
+    this.findJobType();
+    this.findPlatform();
   }
 
   formInitialized(): void {
@@ -80,37 +87,11 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
     });
   }
 
-  formFieldsArray(): void {
-    this.formFields = [
-      { label: 'Company Name', fieldName: 'companyName' },
-      { label: 'Position', fieldName: 'position' },
-      { label: 'Location', fieldName: 'location' },
-      { label: 'Job Type', fieldName: 'jobType' },
-      { label: 'Status', fieldName: 'status' },
-      { label: 'Platform', fieldName: 'platform' },
-      { label: 'Applied On', fieldName: 'appliedOn' },
-      { label: 'Category Id', fieldName: 'categoryId' }
-    ];
-  }
-
   initPageFromRouteId(): void {
     this.label = this.routeId ? 'Update' : 'Create';
     if (this.routeId) {
       this.findOne();
     }
-  }
-
-  get formCtrlValue(): CreateActivityDto {
-    return {
-      companyName: this.form.get('companyName')?.value,
-      position: this.form.get('position')?.value,
-      location: this.form.get('location')?.value,
-      jobType: this.form.get('jobType')?.value,
-      status: this.form.get('status')?.value,
-      platform: this.form.get('platform')?.value,
-      appliedOn: this.form.get('appliedOn')?.value,
-      categoryId: this.form.get('categoryId')?.value.id,
-    };
   }
 
   findOne(): void {
@@ -121,10 +102,37 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
       error: (error: HttpErrorResponse) => {
         this.errorMessage(error);
       },
-      complete: () => { },
     });
   }
 
+  prepopulateForm(activity: Activity): void {
+    console.log(activity);
+    if(activity){
+      this.form.patchValue({
+        companyName: activity.companyName,
+        position: activity.position,
+        location: activity.location,
+        jobType: activity.jobType,
+        status: activity.status,
+        platform: activity.platform,
+        appliedOn: new Date(activity.appliedOn),
+        categoryId: activity.category,
+      });
+    }
+  }
+
+  get formCtrlValue() {
+    return {
+      companyName: this.form.get('companyName')?.value,
+      position: this.form.get('position')?.value,
+      location: this.form.get('location')?.value,
+      jobType: this.form.get('jobType')?.value.name,
+      status: this.form.get('status')?.value.name,
+      platform: this.form.get('platform')?.value.name,
+      appliedOn: this.form.get('appliedOn')?.value,
+      categoryId: this.form.get('categoryId')?.value.id,
+    };
+  }
 
   findCategory(): void {
     this.categoryService.findAll().pipe(takeUntil(this.destroyed)).subscribe({
@@ -137,16 +145,36 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
     })
   }
 
-  prepopulateForm(activity: Activity): void {
-    this.form.patchValue({
-      companyName: activity.companyName,
-      position: activity.position,
-      location: activity.location,
-      jobType: activity.jobType,
-      status: activity.status,
-      platform: activity.platform,
-      appliedOn: new Date(activity.appliedOn),
-      categoryId: activity.category,
+  findStatus(): void {
+    this.activityService.findAppliedStatus().pipe(takeUntil(this.destroyed)).subscribe({
+      next: (response) => {
+        this.status = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage(error);
+      },
+    });
+  }
+
+  findPlatform(): void {
+    this.activityService.findPlatform().pipe(takeUntil(this.destroyed)).subscribe({
+      next: (response) => {
+        this.platform = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage(error);
+      },
+    });
+  }
+
+  findJobType(): void {
+    this.activityService.findJobTypes().pipe(takeUntil(this.destroyed)).subscribe({
+      next: (response) => {
+        this.jobType = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage(error);
+      },
     });
   }
 
@@ -203,6 +231,7 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    console.log(this.formCtrlValue);
     this.isLoading = true;
     if (this.form.valid) {
       this.routeId ? this.onUpdate() : this.onCreate();

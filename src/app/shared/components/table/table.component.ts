@@ -34,6 +34,7 @@ export class TableComponent {
   @Input() columns: any[] = [];
   @Input() rows: number = 5;
   @Input() dt: any;
+  @Input() search!: string[];
   @Output() create = new EventEmitter<void>();
   @Output() update = new EventEmitter<string>();
   @Output() onAccept: EventEmitter<string> = new EventEmitter<string>();

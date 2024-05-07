@@ -1,0 +1,10 @@
+<div [formGroup]="formGroup" class="relative mt-4">
+  <p-floatLabel>
+    <textarea id={{fieldName}} rows="5" cols="30" pInputTextarea [ngClass]="classFilled" formControlName={{fieldName}}>
+    </textarea>
+    <label [for]="fieldName" [ngClass]="classLabel"> {{ label }} </label>
+  </p-floatLabel>
+  @if (isInvalid) {
+  <div class="errors-message">{{ errorMessage }}</div>
+  }
+</div>

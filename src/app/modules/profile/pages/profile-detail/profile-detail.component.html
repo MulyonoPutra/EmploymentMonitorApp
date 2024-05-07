@@ -1,0 +1,133 @@
+<div class="bg-gray-100">
+  <div class="container mt-[100px] py-4">
+    <div class="grid grid-cols-4 gap-6 px-4 sm:grid-cols-1">
+      <div class="col-span-4 sm:col-span-9">
+        <div class="rounded-lg bg-white p-6 shadow">
+          <app-button [isLoading]="isLoading" (clicked)="update(user.id)" [label]="labelButton" [type]="'save'" />
+          <div class="avatar">
+            <img [src]="user!.avatar" alt="User Profile" />
+          </div>
+          <div
+            class="xs:w-[92%] relative mx-auto flex flex-col items-center justify-center gap-4 sm:w-[96%] md:w-[94%] lg:w-[90%] xl:-top-[4rem] xl:w-[80%]">
+            <h1 class="text-center text-4xl font-semibold text-gray-800 dark:text-white">
+              {{ user.name }}
+            </h1>
+            <p class="text-md w-full text-pretty text-center text-gray-700 dark:text-gray-400">
+              {{ user.summary }}
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="mb-4 text-xl font-bold">Experience</h2>
+            </div>
+            @if (user.experience.length === 0) {
+            <div>
+              <button type="button" [pTooltip]="experienceTooltip">
+                <i class="pi pi-plus"></i>
+              </button>
+              <ng-template #experienceTooltip>
+                <div class="flex items-center">
+                  <span> New Experience</span>
+                </div>
+              </ng-template>
+            </div>
+            }
+          </div>
+          @for (experience of user.experience; track $index) {
+          <div class="mb-6">
+            <div class="flex w-full flex-wrap justify-between gap-2">
+              <div>
+                <span class="font-bold text-gray-700">{{ experience.position }} </span>
+                <p>
+                  <span class="mr-2 text-gray-700">at {{ experience.company }}</span>
+                  <span class="text-gray-700">
+                    {{ experience.startDate | date : 'mediumDate' }} - {{ experience.endDate | date : 'mediumDate' }}
+                  </span>
+                </p>
+              </div>
+              <div class="flex space-x-4">
+                <div>
+                  <button type="button" (click)="updateExperience(experience.id!)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                </div>
+                <div>
+                  <button type="button" (click)="createExperience()">
+                    <i class="pi pi-plus"></i>
+                  </button>
+                </div>
+                <div>
+                  <button type="button" (click)="removeConfirmation($event, experience.id!, 'experience')">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="mt-2 text-sm font-normal text-gray-400">
+              {{ experience.responsibilities }}
+            </p>
+          </div>
+          }
+
+          <hr class="my-6 border-t border-gray-300" />
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="mb-4 text-xl font-bold">Education</h2>
+            </div>
+            @if (user.education.length === 0) {
+            <div>
+              <button type="button" [pTooltip]="educationTooltip">
+                <i class="pi pi-plus"></i>
+              </button>
+              <ng-template #educationTooltip>
+                <div class="flex items-center">
+                  <span> New Education</span>
+                </div>
+              </ng-template>
+            </div>
+            }
+          </div>
+
+          @for (education of user.education; track $index) {
+          <div class="mb-6">
+            <div class="flex w-full flex-wrap justify-between gap-2">
+              <div>
+                <span class="font-bold text-gray-700">{{ education.title }} </span>
+                <p>
+                  <span class="mr-2 text-gray-700">at {{ education.institution }}</span>
+                  <span class="text-gray-700">
+                    {{ education.startDate | date : 'mediumDate' }} - {{ education.endDate | date : 'mediumDate' }}
+                  </span>
+                </p>
+              </div>
+              <div class="flex space-x-4">
+                <div>
+                  <button type="button" (click)="updateEducation(education.id!)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                </div>
+                <div>
+                  <button type="button" (click)="createEducation()">
+                    <i class="pi pi-plus"></i>
+                  </button>
+                </div>
+                <div>
+                  <button type="button" (click)="removeConfirmation($event, education.id!, 'education')">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="mt-2 text-sm font-normal text-gray-400">
+              {{ education.description }}
+            </p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog />

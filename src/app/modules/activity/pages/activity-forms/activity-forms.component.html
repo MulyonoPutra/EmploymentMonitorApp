@@ -13,13 +13,31 @@
             <app-form-field [formGroup]="form" [label]="'Location'" fieldName="location" />
           </div>
           <div>
-            <app-form-field [formGroup]="form" [label]="'Job Type'" fieldName="jobType" />
+            <app-dropdown
+              [formGroup]="form"
+              [label]="'Job Type'"
+              fieldName="jobType"
+              placeholder="Select Job Type"
+              [data]="jobType"
+              [optionLabel]="'name'" />
           </div>
           <div>
-            <app-form-field [formGroup]="form" [label]="'Status'" fieldName="status" />
+            <app-dropdown
+              [formGroup]="form"
+              [label]="'Status'"
+              fieldName="status"
+              placeholder="Select Status"
+              [data]="status"
+              [optionLabel]="'name'" />
           </div>
           <div>
-            <app-form-field [formGroup]="form" [label]="'Platform'" fieldName="platform" />
+            <app-dropdown
+              [formGroup]="form"
+              [label]="'platform'"
+              fieldName="platform"
+              placeholder="Select Platform"
+              [data]="platform"
+              [optionLabel]="'name'"  />
           </div>
           <div>
             <app-calendar [formGroup]="form" [label]="'Applied'" fieldName="appliedOn"></app-calendar>
@@ -46,7 +64,6 @@
         (clicked)="onSubmit()"
         [isDisabled]="form.invalid" />
       <app-button [type]="'cancel'" [label]="cancelLabel" [isDisabled]="false" (clicked)="goBack()" />
-      
     </div>
   </ng-container>
 </app-wrapper-content>

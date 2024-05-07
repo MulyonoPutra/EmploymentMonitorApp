@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.avatar {
+  @apply mx-auto flex w-full justify-center;
+
+  img {
+    @apply relative rounded-full object-cover shadow-xl outline outline-2 outline-offset-2 outline-yellow-500 sm:bottom-[5rem] sm:h-[10rem] sm:w-[10rem] md:bottom-[2rem] md:h-[12rem] md:w-[12rem] lg:bottom-[8rem] lg:h-[16rem] lg:w-[16rem] xl:bottom-[7rem] xl:h-[16rem] xl:w-[16rem];
+  }
+}
+
+::ng-deep {
+  .pi {
+    @apply text-gray-400 cursor-pointer;
+
+    &:hover {
+      @apply text-gray-600;
+    }
+  }
+
+  .p-confirm-dialog-reject {
+    @apply border flex-none rounded-md bg-white px-4 py-2.5 text-xs font-semibold text-gray-500 hover:text-primary-500 dark:bg-night-600 dark:text-night-200 dark:hover:bg-night-500 mr-4;
+  }
+
+  .p-confirm-dialog-accept {
+    @apply flex-none rounded-md bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600;
+  }
+}

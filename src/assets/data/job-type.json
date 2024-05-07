@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1d6a70b7-41f4-4c63-80cb-1a81f04fdcf1",
+    "name": "Full-Time"
+  },
+  {
+    "id": "e39304fb-7c5a-4c7d-b8c0-3b7e7d90dc18",
+    "name": "Part-Time"
+  },
+  {
+    "id": "2b8430b2-5933-4f12-b0bb-97908e862ff9",
+    "name": "Contract"
+  },
+  {
+    "id": "e4863a07-bc5a-4a7b-a0e0-9b5a37fc21e3",
+    "name": "Temporary"
+  },
+  {
+    "id": "f7c5e72e-8e7b-41e4-9140-5b280a110b14",
+    "name": "Freelance"
+  },
+  {
+    "id": "06e91450-6545-4794-bb8d-fd5b8f4f1026",
+    "name": "Internship"
+  },
+  {
+    "id": "71e9eb15-f82f-4a4b-9166-508fc8bde31b",
+    "name": "Remote"
+  },
+  {
+    "id": "1b2d2b3c-02b8-4b15-8138-90f22e720f81",
+    "name": "Permanent"
+  },
+  {
+    "id": "07e91f86-8b99-4e47-8591-84c53ad9fb36",
+    "name": "Seasonal"
+  },
+  {
+    "id": "2aa6ae67-fa4a-4d3b-b1ef-40e8c92edf35",
+    "name": "Consultant"
+  },
+  {
+    "id": "e9b9430e-54f1-4a18-a5b3-6d17ee134497",
+    "name": "Volunteer"
+  }
+]
