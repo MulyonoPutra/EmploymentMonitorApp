@@ -46,13 +46,14 @@ export class AuthenticationService {
     return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/register-admin`, body);
   }
 
-  logout(accessToken: string): Observable<unknown> {
-    const httpOptions = {
-      headers: new HttpHeaders({
+  logout(accessToken: string): Observable<any> {
+    return this.http.post(`${this.env}/auth/logout`, {
+      headers: {
         Authorization: `Bearer ${accessToken}`,
-      }),
-    };
-    return this.http.post<unknown>(`${this.env}/auth/logout`, httpOptions);
+      },
+    }).pipe(
+      catchError((error: HttpErrorResponse) => handlerHttpError(error))
+    );
   }
 
   generateRefreshToken(refreshToken: string): Observable<HttpResponseEntity<Credentials>> {

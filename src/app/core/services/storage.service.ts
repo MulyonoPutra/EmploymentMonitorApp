@@ -71,8 +71,8 @@ export class StorageService {
     return sessionStorage.getItem(AuthKey.UserId)!;
   }
 
-  public clear(): void {
+  public clear() {
     this.token = null;
-    this.cookieService.deleteAll('/');
+    sessionStorage.clear();
   }
 }
