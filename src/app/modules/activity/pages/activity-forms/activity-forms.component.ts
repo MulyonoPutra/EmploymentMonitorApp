@@ -1,6 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnDestroy, type OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from 'src/app/core/services/activity.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
@@ -23,240 +31,252 @@ import { Platform } from '../../domain/entities/platform';
 import { FormSelectComponent } from 'src/app/shared/components/form-select/form-select.component';
 import { DropdownModule } from 'primeng/dropdown';
 @Component({
-  selector: 'app-activity-forms',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormFieldComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    WrapperContentComponent,
-    ButtonComponent,
-    DropdownComponent,
-    CalendarComponent,
-    FormSelectComponent,
-    DropdownModule
-  ],
-  templateUrl: './activity-forms.component.html',
-  styleUrls: [ './activity-forms.component.scss' ],
-  providers: [ToastService, ActivityService, CategoryService, ValidationService],
+	selector: 'app-activity-forms',
+	standalone: true,
+	imports: [
+		CommonModule,
+		FormFieldComponent,
+		FormsModule,
+		ReactiveFormsModule,
+		WrapperContentComponent,
+		ButtonComponent,
+		DropdownComponent,
+		CalendarComponent,
+		FormSelectComponent,
+		DropdownModule,
+	],
+	templateUrl: './activity-forms.component.html',
+	styleUrls: ['./activity-forms.component.scss'],
+	providers: [ToastService, ActivityService, CategoryService, ValidationService],
 })
 export class ActivityFormsComponent implements OnInit, OnDestroy {
+	form!: FormGroup;
+	routeId!: string;
+	label!: string;
+	formFields!: FormFields[];
+	private destroyed = new Subject();
+	isLoading = false;
+	categories!: Category[];
+	status!: Status[];
+	jobTypes!: JobType[];
+	platforms!: Platform[];
 
-  form!: FormGroup;
-  routeId!: string;
-  label!: string;
-  formFields!: FormFields[];
-  private destroyed = new Subject();
-  isLoading = false;
-  categories!: Category[];
-  status!: Status[];
-  jobTypes!: JobType[];
-  platforms!: Platform[];
+	constructor(
+		private readonly fb: FormBuilder,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router,
+		private readonly validations: ValidationService,
+		private readonly activityService: ActivityService,
+		private readonly location: Location,
+		private readonly toastService: ToastService,
+		private readonly categoryService: CategoryService
+	) {
+		this.routeId = this.route.snapshot.paramMap.get('id')!;
+	}
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly validations: ValidationService,
-    private readonly activityService: ActivityService,
-    private readonly location: Location,
-    private readonly toastService: ToastService,
-    private readonly categoryService: CategoryService
-  ) {
-    this.routeId = this.route.snapshot.paramMap.get('id')!;
+	ngOnInit(): void {
+		this.formInitialized();
+		this.initPageFromRouteId();
+		this.findCategory();
+		this.findStatus();
+		this.findJobType();
+		this.findPlatform();
+	}
 
-  }
+	formInitialized(): void {
+		this.form = this.fb.group({
+			companyName: ['', Validators.required],
+			position: ['', Validators.required],
+			location: ['', Validators.required],
+			jobType: ['', Validators.required],
+			status: ['', Validators.required],
+			platform: ['', Validators.required],
+			appliedOn: ['', Validators.required],
+			categoryId: ['', Validators.required],
+		});
+	}
 
-  ngOnInit(): void {
-    this.formInitialized();
-    this.initPageFromRouteId();
-    this.findCategory();
-    this.findStatus();
-    this.findJobType();
-    this.findPlatform();
-  }
+	initPageFromRouteId(): void {
+		this.label = this.routeId ? 'Update' : 'Create';
+		if (this.routeId) {
+			this.findOne();
+		}
+	}
 
-  formInitialized(): void {
-    this.form = this.fb.group({
-      companyName: ['', Validators.required],
-      position: ['', Validators.required],
-      location: ['', Validators.required],
-      jobType: ['', Validators.required],
-      status: ['', Validators.required],
-      platform: ['', Validators.required],
-      appliedOn: ['', Validators.required],
-      categoryId: ['', Validators.required],
-    });
-  }
+	findOne(): void {
+		this.activityService
+			.findOne(this.routeId)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (activity: Activity) => {
+					this.prepopulateForm(activity);
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  initPageFromRouteId(): void {
-    this.label = this.routeId ? 'Update' : 'Create';
-    if (this.routeId) {
-      this.findOne();
-    }
-  }
+	prepopulateForm(activity: Activity): void {
+		this.form.patchValue({
+			companyName: activity.companyName,
+			position: activity.position,
+			location: activity.location,
+			jobType: activity.jobType,
+			status: activity.status,
+			platform: activity.platform,
+			appliedOn: new Date(activity.appliedOn),
+			categoryId: activity.category,
+		});
+	}
 
-  findOne(): void {
-    this.activityService.findOne(this.routeId).pipe(takeUntil(this.destroyed)).subscribe({
-      next: (activity: Activity) => {
-        this.prepopulateForm(activity);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    });
-  }
+	get formCtrlValue() {
+		return {
+			companyName: this.form.get('companyName')?.value,
+			position: this.form.get('position')?.value,
+			location: this.form.get('location')?.value,
+			jobType: this.form.get('jobType')?.value,
+			status: this.form.get('status')?.value,
+			platform: this.form.get('platform')?.value,
+			appliedOn: this.form.get('appliedOn')?.value,
+			categoryId: this.form.get('categoryId')?.value.id,
+		};
+	}
 
-  prepopulateForm(activity: Activity): void {
-    this.form.patchValue({
-      companyName: activity.companyName,
-      position: activity.position,
-      location: activity.location,
-      jobType: activity.jobType,
-      status: activity.status,
-      platform: activity.platform,
-      appliedOn: new Date(activity.appliedOn),
-      categoryId: activity.category,
-    });
-  }
+	findCategory(): void {
+		this.categoryService
+			.findAll()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.categories = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  get formCtrlValue() {
-    return {
-      companyName: this.form.get('companyName')?.value,
-      position: this.form.get('position')?.value,
-      location: this.form.get('location')?.value,
-      jobType: this.form.get('jobType')?.value,
-      status: this.form.get('status')?.value,
-      platform: this.form.get('platform')?.value,
-      appliedOn: this.form.get('appliedOn')?.value,
-      categoryId: this.form.get('categoryId')?.value.id,
-    };
-  }
+	findStatus(): void {
+		this.activityService
+			.findAppliedStatus()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.status = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  findCategory(): void {
-    this.categoryService.findAll().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.categories = response
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    })
-  }
+	findPlatform(): void {
+		this.activityService
+			.findPlatform()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.platforms = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  findStatus(): void {
-    this.activityService.findAppliedStatus().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.status = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    });
-  }
+	findJobType(): void {
+		this.activityService
+			.findJobTypes()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.jobTypes = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  findPlatform(): void {
-    this.activityService.findPlatform().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.platforms = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    });
-  }
+	successMessage(message: string): void {
+		this.toastService.showSuccess('Success!', message);
+	}
 
-  findJobType(): void {
-    this.activityService.findJobTypes().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.jobTypes = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    });
-  }
+	errorMessage(error: HttpErrorResponse): void {
+		this.toastService.showError('Error!', error.message);
+	}
 
-  successMessage(message: string): void {
-    this.toastService.showSuccess('Success!', message);
-  }
+	get submitLabel(): string {
+		return this.label;
+	}
 
-  errorMessage(error: HttpErrorResponse): void {
-    this.toastService.showError('Error!', error.message);
-  }
+	get cancelLabel(): string {
+		return 'Cancel';
+	}
 
-  get submitLabel(): string {
-    return this.label;
-  }
+	getFormControl(form: string): FormControl | AbstractControl {
+		return this.form.get(form) as FormControl;
+	}
 
-  get cancelLabel(): string {
-    return 'Cancel';
-  }
+	onCreate(): void {
+		this.activityService.create(this.formCtrlValue).subscribe({
+			next: () => {
+				setTimeout(() => {
+					this.isLoading = false;
+				}, 2000);
+			},
+			error: (error: HttpErrorResponse) => {
+				this.errorMessage(error);
+			},
+			complete: () => {
+				this.navigateAfterSucceed('Successfully Created!');
+			},
+		});
+	}
 
-  getFormControl(form: string): FormControl | AbstractControl {
-    return this.form.get(form) as FormControl;
-  }
+	onUpdate(): void {
+		this.activityService.update(this.routeId, this.formCtrlValue).subscribe({
+			next: () => {
+				setTimeout(() => {
+					this.isLoading = false;
+				}, 2000);
+			},
+			error: (error: HttpErrorResponse) => {
+				this.errorMessage(error);
+			},
+			complete: () => {
+				this.navigateAfterSucceed('Successfully Updated!');
+			},
+		});
+	}
 
-  onCreate(): void {
-    this.activityService.create(this.formCtrlValue).subscribe({
-      next: () => {
-        setTimeout(() => {
-          this.isLoading = false
-        }, 2000);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-      complete: () => {
-        this.navigateAfterSucceed('Successfully Created!');
-      }
-    });
-  }
+	onSubmit(): void {
+		console.log(this.formCtrlValue);
+		this.isLoading = true;
+		if (this.form.valid) {
+			this.routeId ? this.onUpdate() : this.onCreate();
+		} else {
+			this.validations.markAllFormControlsAsTouched(this.form);
+		}
+	}
 
-  onUpdate(): void {
-    this.activityService.update(this.routeId, this.formCtrlValue).subscribe({
-      next: () => {
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 2000);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-      complete: () => {
-        this.navigateAfterSucceed('Successfully Updated!');
-      },
-    });
-  }
+	navigateAfterSucceed(message: string): void {
+		timer(3000)
+			.pipe(take(1))
+			.subscribe(() => {
+				this.router.navigateByUrl('/activity/list').then(() => {
+					this.successMessage(message);
+				});
+			});
+	}
 
-  onSubmit(): void {
-    console.log(this.formCtrlValue);
-    this.isLoading = true;
-    if (this.form.valid) {
-      this.routeId ? this.onUpdate() : this.onCreate();
-    } else {
-      this.validations.markAllFormControlsAsTouched(this.form);
-    }
-  }
+	goBack(): void {
+		this.location.back();
+	}
 
-  navigateAfterSucceed(message: string): void {
-    timer(3000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigateByUrl('/activity/list').then(() => {
-          this.successMessage(message);
-        })
-      });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next(true);
-    this.destroyed.complete();
-  }
-
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
+	}
 }

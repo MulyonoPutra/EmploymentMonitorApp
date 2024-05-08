@@ -13,97 +13,93 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-category-list',
-  standalone: true,
-  imports: [
-    CommonModule, TableComponent, ToastModule, ConfirmDialogModule,
-  ],
-  templateUrl: './category-list.component.html',
-  styleUrls: [ './category-list.component.scss' ],
-  providers: [CategoryService, ConfirmationService, MessageService]
+	selector: 'app-category-list',
+	standalone: true,
+	imports: [CommonModule, TableComponent, ToastModule, ConfirmDialogModule],
+	templateUrl: './category-list.component.html',
+	styleUrls: ['./category-list.component.scss'],
+	providers: [CategoryService, ConfirmationService, MessageService],
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
+	categories!: Category[];
 
-  private destroyed = new Subject();
-  categories!: Category[];
+	constructor(
+		private readonly router: Router,
+		private readonly categoryService: CategoryService,
+		private readonly toastService: ToastService
+	) {}
 
-  constructor(
-    private readonly router: Router,
-    private readonly categoryService: CategoryService,
-    private readonly toastService: ToastService,
+	ngOnInit(): void {
+		this.findAll();
+	}
 
-  ) { }
+	tableColumns = [
+		{ header: 'Id', field: 'id', width: '25%' },
+		{ header: 'Name', field: 'name', width: '25%' },
+	];
 
-  ngOnInit(): void {
-    this.findAll();
-  }
+	findAll(): void {
+		this.categoryService
+			.findAll()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.categories = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+			});
+	}
 
-  tableColumns = [
-    { header: 'Id', field: 'id', width: '25%' },
-    { header: 'Name', field: 'name', width: '25%' },
-  ];
+	onUpdate(id: string): void {
+		this.router.navigateByUrl(`category/update/${id}`);
+	}
 
-  findAll(): void {
-    this.categoryService.findAll().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.categories = response
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-    })
-  }
+	onAccept(id: string): void {
+		this.categoryService
+			.remove(id)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {
+					this.successMessage('You have successfully removed');
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+				complete: () => {
+					this.navigateAfterSucceed();
+				},
+			});
+	}
 
-  onUpdate(id: string): void {
-    this.router.navigateByUrl(`category/update/${id}`);
-  }
+	navigateAfterSucceed(): void {
+		timer(1000)
+			.pipe(take(1))
+			.subscribe(() =>
+				this.router.navigateByUrl('/category/list').then(() => window.location.reload())
+			);
+	}
 
-  onAccept(id: string): void {
-    this.categoryService
-      .remove(id)
-      .pipe(takeUntil(this.destroyed))
-      .subscribe({
-        next: () => {
-          this.successMessage('You have successfully removed');
-        },
-        error: (error: HttpErrorResponse) => {
-          this.errorMessage(error);
-        },
-        complete: () => {
-          this.navigateAfterSucceed();
-        },
-      });
-  }
+	onReject() {
+		this.toastService.showError('Rejected!', 'You have cancelled this operation');
+	}
 
-  navigateAfterSucceed(): void {
-    timer(1000)
-      .pipe(take(1))
-      .subscribe(() =>
-        this.router
-          .navigateByUrl('/category/list')
-          .then(() => window.location.reload())
-      );
-  }
+	onCreate(): void {
+		this.router.navigate(['category/forms']);
+	}
 
-  onReject() {
-    this.toastService.showError('Rejected!', 'You have cancelled this operation');
-  }
+	successMessage(message: string): void {
+		this.toastService.showSuccess('Success!', message);
+	}
 
-  onCreate(): void {
-    this.router.navigate(['category/forms']);
-  }
-  
-  successMessage(message: string): void {
-    this.toastService.showSuccess('Success!', message);
-  }
+	errorMessage(error: HttpErrorResponse): void {
+		this.toastService.showError('Error!', error.message);
+	}
 
-  errorMessage(error: HttpErrorResponse): void {
-    this.toastService.showError('Error!', error.message);
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next(true);
-    this.destroyed.complete();
-  }
-
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
+	}
 }

@@ -9,54 +9,50 @@ import { StorageService } from './storage.service';
 import { handlerHttpError } from '../utils/http-handle-error';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class CategoryService {
+	env = 'http://localhost:3000/api/v1';
+	constructor(private readonly http: HttpClient, private storageService: StorageService) {}
 
-  env = 'http://localhost:3000/api/v1';
-  constructor(
-    private readonly http: HttpClient,
-    private storageService: StorageService) { }
+	findAll(): Observable<Category[]> {
+		const token = this.storageService.getAccessToken();
+		return this.http
+			.get<HttpResponseEntity<Category[]>>(`${this.env}/category`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.pipe(map((response) => response.data));
+	}
 
-  findAll(): Observable<Category[]> {
-    const token = this.storageService.getAccessToken();
-    return this.http
-      .get<HttpResponseEntity<Category[]>>(`${this.env}/category`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .pipe(map((response) => response.data));
-  }
+	findOne(id: string): Observable<Category> {
+		return this.http.get<HttpResponseEntity<Category>>(`${this.env}/category/${id}`).pipe(
+			map((response) => response.data),
+			catchError((error: HttpErrorResponse) => handlerHttpError(error))
+		);
+	}
 
-  findOne(id: string): Observable<Category> {
-    return this.http.get<HttpResponseEntity<Category>>(`${this.env}/category/${id}`).pipe(
-      map((response) => response.data),
-      catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );
-  }
+	create(body: CategoryDTO): Observable<Category> {
+		return this.http.post<HttpResponseEntity<Category>>(`${this.env}/category`, body).pipe(
+			map((response) => response.data),
+			catchError((error: HttpErrorResponse) => handlerHttpError(error))
+		);
+	}
 
-  create(body: CategoryDTO): Observable<Category> {
-    return this.http.post<HttpResponseEntity<Category>>(`${this.env}/category`, body).pipe(
-      map((response) => response.data),
-      catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );
-  }
+	update(id: string, body: CategoryDTO): Observable<string> {
+		return this.http
+			.patch<HttpResponseEntity<Category>>(`${this.env}/category/${id}`, body)
+			.pipe(
+				map((response) => response.message),
+				catchError((error: HttpErrorResponse) => handlerHttpError(error))
+			);
+	}
 
-  update(id: string, body: CategoryDTO): Observable<string> {
-    return this.http
-      .patch<HttpResponseEntity<Category>>(`${this.env}/category/${id}`, body)
-      .pipe(
-        map((response) => response.message),
-        catchError((error: HttpErrorResponse) => handlerHttpError(error))
-      );
-  }
-
-  remove(id: string): Observable<string> {
-    return this.http.delete<HttpResponseEntity<Category>>(`${this.env}/category/${id}`).pipe(
-      map((response) => response.message),
-      catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );
-  }
-
+	remove(id: string): Observable<string> {
+		return this.http.delete<HttpResponseEntity<Category>>(`${this.env}/category/${id}`).pipe(
+			map((response) => response.message),
+			catchError((error: HttpErrorResponse) => handlerHttpError(error))
+		);
+	}
 }

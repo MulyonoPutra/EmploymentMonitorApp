@@ -11,16 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade angular version from 16 to 17
+-   Upgrade angular version from 16 to 17
 
 ## [0.1.2] - 2023-10-24
 
 ### Fixed
 
-- Scroll to top when route change (#9)
+-   Scroll to top when route change (#9)
 
 ## [0.1.1] - 2023-02-03
 
 ### Fixed
 
-- Mobile navbar menu index order
+-   Mobile navbar menu index order

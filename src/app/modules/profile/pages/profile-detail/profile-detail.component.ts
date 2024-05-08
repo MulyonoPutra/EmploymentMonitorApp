@@ -12,138 +12,140 @@ import { ConfirmationService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
-  selector: 'app-profile-detail',
-  standalone: true,
-  imports: [
-    CommonModule, ButtonComponent, ConfirmDialogModule, TooltipModule
-  ],
-  templateUrl: './profile-detail.component.html',
-  styleUrls: [ './profile-detail.component.scss' ],
-  providers: [ProfileService, ConfirmationService, ToastService]
+	selector: 'app-profile-detail',
+	standalone: true,
+	imports: [CommonModule, ButtonComponent, ConfirmDialogModule, TooltipModule],
+	templateUrl: './profile-detail.component.html',
+	styleUrls: ['./profile-detail.component.scss'],
+	providers: [ProfileService, ConfirmationService, ToastService],
 })
 export class ProfileDetailComponent implements OnInit {
+	private destroyed = new Subject();
+	user!: User;
 
-  private destroyed = new Subject();
-  user!: User;
+	labelButton = 'Update Profile';
 
-  labelButton = 'Update Profile';
+	isLoading = false;
 
-  isLoading = false;
+	constructor(
+		private readonly router: Router,
+		private readonly profileService: ProfileService,
+		private readonly toastService: ToastService,
+		private readonly confirmationService: ConfirmationService
+	) {}
 
-  constructor(
-    private readonly router: Router,
-    private readonly profileService: ProfileService,
-    private readonly toastService: ToastService,
-    private readonly confirmationService: ConfirmationService
+	ngOnInit(): void {
+		this.findUser();
+	}
 
-  ) { }
+	findUser(): void {
+		this.profileService
+			.findUserDetail()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.user = response;
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error.message);
+				},
+			});
+	}
 
-  ngOnInit(): void {
-    this.findUser();
-  }
+	generateAvatar(): string {
+		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		const endpoint = 'https://robohash.org';
+		let text = '';
 
-  findUser(): void {
-    this.profileService.findUserDetail().pipe(takeUntil(this.destroyed)).subscribe({
-      next: (response) => {
-        this.user = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error.message);
-      },
-    })
-  }
+		for (let i = 0; i < 10; i++) {
+			text += characters.charAt(Math.floor(Math.random() * characters.length));
+		}
 
-  generateAvatar(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const endpoint = 'https://robohash.org';
-    let text = '';
+		return `${endpoint}/${text}`;
+	}
 
-    for (let i = 0; i < 10; i++) {
-      text += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
+	updateEducation(id: string): void {
+		this.router.navigateByUrl(`/profile/education/${id}`);
+	}
 
-    return `${endpoint}/${text}`;
-  }
+	createEducation(): void {
+		this.router.navigateByUrl(`/profile/education`);
+	}
 
-  updateEducation(id: string): void {
-    this.router.navigateByUrl(`/profile/education/${id}`);
-  }
+	updateExperience(id: string): void {
+		this.router.navigateByUrl(`/profile/experience/${id}`);
+	}
 
-  createEducation(): void {
-    this.router.navigateByUrl(`/profile/education`);
-  }
+	createExperience(): void {
+		this.router.navigateByUrl(`/profile/experience`);
+	}
 
-  updateExperience(id: string): void {
-    this.router.navigateByUrl(`/profile/experience/${id}`);
-  }
+	removeConfirmation(event: Event, id: string, flag: string): void {
+		this.confirmationService.confirm({
+			target: event.target as EventTarget,
+			message: 'Do you want to delete this record?',
+			header: 'Delete Confirmation',
+			icon: 'pi pi-info-circle',
+			accept: () => {
+				if (flag === 'education') {
+					this.removeEducationFromServer(id);
+				} else if (flag === 'experience') {
+					this.removeExperienceFromServer(id);
+				}
+			},
+			reject: () => {
+				this.errorMessage('Delete record cancelled! ');
+			},
+		});
+	}
 
-  createExperience(): void {
-    this.router.navigateByUrl(`/profile/experience`);
-  }
+	removeEducationFromServer(id: string): void {
+		this.profileService
+			.removeEducation(id)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error.message);
+				},
+				complete: () => {
+					this.successMessage(`successfully removed with id ${id}`);
+					this.reloadAfterSucceed();
+				},
+			});
+	}
 
-  removeConfirmation(event: Event, id: string, flag: string): void {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
-      accept: () => {
-        if(flag === 'education'){
-          this.removeEducationFromServer(id);
-        } else if(flag === 'experience'){
-          this.removeExperienceFromServer(id);
-        }
-      },
-      reject: () => {
-        this.errorMessage('Delete record cancelled! ');
-      }
-    });
-  }
+	removeExperienceFromServer(id: string): void {
+		this.profileService
+			.removeExperience(id)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error.message);
+				},
+				complete: () => {
+					this.successMessage(`successfully removed with id ${id}`);
+					this.reloadAfterSucceed();
+				},
+			});
+	}
 
-  removeEducationFromServer(id: string): void {
-    this.profileService.removeEducation(id).pipe(takeUntil(this.destroyed)).subscribe({
-      next: () => {},
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error.message);
-      },
-      complete: () => {
-        this.successMessage(`successfully removed with id ${id}`);
-        this.reloadAfterSucceed();
-      }
-    })
-  }
+	reloadAfterSucceed(): void {
+		timer(1000)
+			.pipe(take(1))
+			.subscribe(() => window.location.reload());
+	}
 
-  removeExperienceFromServer(id: string): void {
-    this.profileService.removeExperience(id).pipe(takeUntil(this.destroyed)).subscribe({
-      next: () => { },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error.message);
-      },
-      complete: () => {
-        this.successMessage(`successfully removed with id ${id}`);
-        this.reloadAfterSucceed();
-      }
-    })
-  }
+	update(id: string): void {
+		this.router.navigateByUrl(`/profile/update/${id}`, { state: this.user });
+	}
 
-  reloadAfterSucceed(): void {
-    timer(1000)
-      .pipe(take(1))
-      .subscribe(() =>
-        window.location.reload()
-      );
-  }
+	successMessage(message: string): void {
+		this.toastService.showSuccess('Success!', message);
+	}
 
-  update(id: string): void {
-    this.router.navigateByUrl(`/profile/update/${id}`, { state: this.user });
-  }
-
-  successMessage(message: string): void {
-    this.toastService.showSuccess('Success!', message);
-  }
-
-  errorMessage(message: string): void {
-    this.toastService.showError('Error!', message);
-  }
-
+	errorMessage(message: string): void {
+		this.toastService.showError('Error!', message);
+	}
 }

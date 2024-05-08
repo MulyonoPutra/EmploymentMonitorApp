@@ -1,58 +1,56 @@
 .errors {
-  &-message {
-    @apply blink absolute left-0 text-xs font-semibold text-red-700;
-  }
+	&-message {
+		@apply blink absolute left-0 text-xs font-semibold text-red-700;
+	}
 }
 
 .label-valid {
-  @apply flex justify-center text-start text-xs font-medium text-gray-500;
+	@apply flex justify-center text-start text-xs font-medium text-gray-500;
 }
 
 .label-invalid {
-  @apply flex justify-center text-start text-xs font-medium text-red-700;
+	@apply flex justify-center text-start text-xs font-medium text-red-700;
 }
 
 .blink {
-  animation: blinker 1s linear infinite;
+	animation: blinker 1s linear infinite;
 }
 
 @keyframes blinker {
-  50% {
-    opacity: 0;
-  }
+	50% {
+		opacity: 0;
+	}
 }
 
 ::ng-deep {
-  .p-dropdown-panel .p-dropdown-items .p-dropdown-item .p-highlight .p-focus {
-    font-size: 12px;
-    font-weight: 600;
-    background: rgba(59, 130, 246, 0.24);
-    text-align: left !important;
-  }
+	.p-dropdown-panel .p-dropdown-items .p-dropdown-item .p-highlight .p-focus {
+		font-size: 12px;
+		font-weight: 600;
+		background: rgba(59, 130, 246, 0.24);
+		text-align: left !important;
+	}
 
-  .p-dropdown-panel .p-dropdown-items .p-dropdown-item:first-child {
-    margin-top: 0;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: left !important;
+	.p-dropdown-panel .p-dropdown-items .p-dropdown-item:first-child {
+		margin-top: 0;
+		font-size: 12px;
+		font-weight: 500;
+		text-align: left !important;
+	}
 
-  }
+	.p-dropdown .p-dropdown-label {
+		background: transparent;
+		border: 0 none;
+		font-size: 12px;
+		text-align: left !important;
+		font-weight: 500;
+		@apply dark:text-night-50;
+	}
 
-  .p-dropdown .p-dropdown-label {
-    background: transparent;
-    border: 0 none;
-    font-size: 12px;
-    text-align: left !important;
-    font-weight: 500;
-    @apply dark:text-night-50;
-  }
+	.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+		@apply bg-primary-500 text-white;
+	}
 
-  .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-    @apply text-white bg-primary-500;
-  }
-
-  .p-dropdown {
-    @apply dark:bg-night-700 bg-white dark:text-white;
-    
-  }
+	.p-dropdown {
+		@apply bg-white dark:bg-night-700 dark:text-white;
+	}
 }

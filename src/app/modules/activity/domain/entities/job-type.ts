@@ -1,4 +1,4 @@
 export interface JobType {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
 }

@@ -1,5 +1,13 @@
-package.json
-package-lock.json
-dist
+# Ignore artifacts:
 build
+coverage
+
+# Ignore all HTML files:
+*.html
+**/.git
+**/.svn
+**/.hg
 node_modules
+.angular
+.vscode
+dist

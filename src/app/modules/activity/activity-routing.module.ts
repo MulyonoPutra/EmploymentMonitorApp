@@ -6,19 +6,19 @@ import { ActivityListComponent } from './pages/activity-list/activity-list.compo
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ActivityComponent,
-    children: [
-      { path: 'forms', component: ActivityFormsComponent },
-      { path: 'update/:id', component: ActivityFormsComponent },
-      { path: 'list', component: ActivityListComponent },
-    ],
-  },
+	{
+		path: '',
+		component: ActivityComponent,
+		children: [
+			{ path: 'forms', component: ActivityFormsComponent },
+			{ path: 'update/:id', component: ActivityFormsComponent },
+			{ path: 'list', component: ActivityListComponent },
+		],
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class ActivityRoutingModule { }
+export class ActivityRoutingModule {}

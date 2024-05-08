@@ -4,15 +4,15 @@ import { CurrencyPipe } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
-    selector: '[nft-auctions-table-item]',
-    templateUrl: './nft-auctions-table-item.component.html',
-    standalone: true,
-    imports: [AngularSvgIconModule, CurrencyPipe],
+	selector: '[nft-auctions-table-item]',
+	templateUrl: './nft-auctions-table-item.component.html',
+	standalone: true,
+	imports: [AngularSvgIconModule, CurrencyPipe],
 })
 export class NftAuctionsTableItemComponent implements OnInit {
-  @Input() auction = <Nft>{};
+	@Input() auction = <Nft>{};
 
-  constructor() {}
+	constructor() {}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 }

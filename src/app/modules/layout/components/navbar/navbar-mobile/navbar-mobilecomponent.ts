@@ -5,22 +5,18 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-navbar-mobile',
-    templateUrl: './navbar-mobile.component.html',
-    styleUrls: ['./navbar-mobile.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        AngularSvgIconModule,
-        NavbarMobileMenuComponent,
-    ],
+	selector: 'app-navbar-mobile',
+	templateUrl: './navbar-mobile.component.html',
+	styleUrls: ['./navbar-mobile.component.scss'],
+	standalone: true,
+	imports: [NgClass, AngularSvgIconModule, NavbarMobileMenuComponent],
 })
 export class NavbarMobileComponent implements OnInit {
-  constructor(public menuService: MenuService) {}
+	constructor(public menuService: MenuService) {}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 
-  public toggleMobileMenu(): void {
-    this.menuService.showMobileMenu = false;
-  }
+	public toggleMobileMenu(): void {
+		this.menuService.showMobileMenu = false;
+	}
 }

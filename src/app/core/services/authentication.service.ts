@@ -10,60 +10,65 @@ import { StorageService } from './storage.service';
 import { handlerHttpError } from '../utils/http-handle-error';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class AuthenticationService {
+	env = 'http://localhost:3000/api/v1';
 
-  env = 'http://localhost:3000/api/v1';
+	constructor(
+		private readonly http: HttpClient,
+		private readonly storageService: StorageService
+	) {}
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly storageService: StorageService
-  ) { }
+	login(body: Login): Observable<HttpResponseEntity<Credentials>> {
+		return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/login`, body).pipe(
+			map((response) => {
+				this.storageService.setAccessToken(response.data.accessToken);
+				this.storageService.setRefreshToken(response.data.refreshToken);
+				return {
+					message: response.message,
+					data: {
+						accessToken: response.data.accessToken,
+						refreshToken: response.data.refreshToken,
+					},
+				};
+			}),
+			catchError((error: HttpErrorResponse) => handlerHttpError(error))
+		);
+	}
 
-  login(body: Login): Observable<HttpResponseEntity<Credentials>> {
-    return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/login`, body).pipe(
-      map((response) => {
-        this.storageService.setAccessToken(response.data.accessToken);
-        this.storageService.setRefreshToken(response.data.refreshToken);
-        return {
-          message: response.message,
-          data: {
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
-          },
-        };
-      }),
-      catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );
-  }
+	register(body: Register): Observable<HttpResponseEntity<Credentials>> {
+		return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/register`, body);
+	}
 
-  register(body: Register): Observable<HttpResponseEntity<Credentials>> {
-    return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/register`, body);
-  }
+	registerAdmin(body: Register): Observable<HttpResponseEntity<Credentials>> {
+		return this.http.post<HttpResponseEntity<Credentials>>(
+			`${this.env}/auth/register-admin`,
+			body
+		);
+	}
 
-  registerAdmin(body: Register): Observable<HttpResponseEntity<Credentials>> {
-    return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/register-admin`, body);
-  }
+	logout(accessToken: string): Observable<any> {
+		return this.http
+			.post(`${this.env}/auth/logout`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			})
+			.pipe(catchError((error: HttpErrorResponse) => handlerHttpError(error)));
+	}
 
-  logout(accessToken: string): Observable<any> {
-    return this.http.post(`${this.env}/auth/logout`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).pipe(
-      catchError((error: HttpErrorResponse) => handlerHttpError(error))
-    );
-  }
+	generateRefreshToken(refreshToken: string): Observable<HttpResponseEntity<Credentials>> {
+		// const refreshToken = this.storageService.getRefreshToken();
+		if (!refreshToken) {
+			return throwError(() => console.error('Refresh token not found!'));
+		}
 
-  generateRefreshToken(refreshToken: string): Observable<HttpResponseEntity<Credentials>> {
-    // const refreshToken = this.storageService.getRefreshToken();
-    if (!refreshToken) {
-      return throwError(() => console.error('Refresh token not found!'));
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${refreshToken}`);
-    return this.http.post<HttpResponseEntity<Credentials>>(`${this.env}/auth/refresh`, {}, { headers: headers });
-  }
-
+		const headers = new HttpHeaders().set('Authorization', `Bearer ${refreshToken}`);
+		return this.http.post<HttpResponseEntity<Credentials>>(
+			`${this.env}/auth/refresh`,
+			{},
+			{ headers: headers }
+		);
+	}
 }

@@ -1,33 +1,33 @@
 :host {
-  display: block;
+	display: block;
 }
 
 .errors {
-  &-message {
-    @apply blink absolute left-0 text-xs font-semibold text-red-700;
-  }
+	&-message {
+		@apply blink absolute left-0 text-xs font-semibold text-red-700;
+	}
 }
 
 .label-valid {
-  @apply flex justify-center text-start text-xs font-medium text-gray-500;
+	@apply flex justify-center text-start text-xs font-medium text-gray-500;
 }
 
 .label-invalid {
-  @apply flex justify-center text-start text-xs font-medium text-red-700;
+	@apply flex justify-center text-start text-xs font-medium text-red-700;
 }
 
 .blink {
-  animation: blinker 1s linear infinite;
+	animation: blinker 1s linear infinite;
 }
 
 @keyframes blinker {
-  50% {
-    opacity: 0;
-  }
+	50% {
+		opacity: 0;
+	}
 }
 
 input {
-  @apply dark:text-gray-200;
-  border: 1px solid rgb(215, 212, 212) !important;
-  border-radius: 5px;
+	@apply dark:text-gray-200;
+	border: 1px solid rgb(215, 212, 212) !important;
+	border-radius: 5px;
 }

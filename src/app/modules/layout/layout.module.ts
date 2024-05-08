@@ -4,6 +4,6 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 @NgModule({
-  imports: [LayoutRoutingModule, HttpClientModule, AngularSvgIconModule.forRoot()],
+	imports: [LayoutRoutingModule, HttpClientModule, AngularSvgIconModule.forRoot()],
 })
 export class LayoutModule {}

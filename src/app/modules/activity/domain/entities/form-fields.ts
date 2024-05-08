@@ -1,4 +1,4 @@
 export interface FormFields {
-  label: string;
-  fieldName: string;
+	label: string;
+	fieldName: string;
 }

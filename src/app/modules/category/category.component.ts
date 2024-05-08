@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-category',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  template: `<router-outlet></router-outlet>`,
+	selector: 'app-category',
+	standalone: true,
+	imports: [CommonModule, RouterOutlet],
+	template: `<router-outlet></router-outlet>`,
 })
-export class CategoryComponent { }
+export class CategoryComponent {}

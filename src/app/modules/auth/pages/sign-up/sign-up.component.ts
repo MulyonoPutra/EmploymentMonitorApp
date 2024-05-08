@@ -4,18 +4,14 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-sign-up',
-    templateUrl: './sign-up.component.html',
-    styleUrls: ['./sign-up.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        RouterLink,
-        AngularSvgIconModule,
-    ],
+	selector: 'app-sign-up',
+	templateUrl: './sign-up.component.html',
+	styleUrls: ['./sign-up.component.scss'],
+	standalone: true,
+	imports: [FormsModule, RouterLink, AngularSvgIconModule],
 })
 export class SignUpComponent implements OnInit {
-  constructor() {}
+	constructor() {}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 }

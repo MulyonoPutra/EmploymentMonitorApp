@@ -5,30 +5,26 @@ import { ButtonModule } from 'primeng/button';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-nft-header',
-    templateUrl: './nft-header.component.html',
-    standalone: true,
-    imports: [
-      ButtonComponent,
-      ButtonModule
-    ],
-  providers: [ToastService]
+	selector: 'app-nft-header',
+	templateUrl: './nft-header.component.html',
+	standalone: true,
+	imports: [ButtonComponent, ButtonModule],
+	providers: [ToastService],
 })
 export class NftHeaderComponent implements OnInit {
-  isLoading = false;
-  constructor(private readonly toastService: ToastService) {}
+	isLoading = false;
+	constructor(private readonly toastService: ToastService) {}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 
-  onClick(): void {}
+	onClick(): void {}
 
-  load() {
-    this.isLoading = true;
+	load() {
+		this.isLoading = true;
 
-    setTimeout(() => {
-      this.isLoading = false
-      this.toastService.showSuccess('Success!', 'logged in successfully');
-    }, 2000);
-
-  }
+		setTimeout(() => {
+			this.isLoading = false;
+			this.toastService.showSuccess('Success!', 'logged in successfully');
+		}, 2000);
+	}
 }

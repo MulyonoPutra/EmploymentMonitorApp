@@ -32,16 +32,16 @@ See [Demo](https://at.lanno.dev) page.
 
 #### Features
 
-- [x] Sidebar
-- [x] Dark Theme
-- [x] Navbar
-- [x] Footer
-- [x] Auth Module
-- [x] Dashboard Module
-- [x] Standalone components
-- [x] Angular Signals
-- [ ] User Module
-- [ ] Guards
+-   [x] Sidebar
+-   [x] Dark Theme
+-   [x] Navbar
+-   [x] Footer
+-   [x] Auth Module
+-   [x] Dashboard Module
+-   [x] Standalone components
+-   [x] Angular Signals
+-   [ ] User Module
+-   [ ] Guards
 
 #### Commands
 

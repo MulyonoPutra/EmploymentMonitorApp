@@ -10,16 +10,22 @@ import { ToastComponent } from './shared/components/toast/toast.component';
 import { ToastModule } from 'primeng/toast';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [CommonModule , NgClass, RouterOutlet, ResponsiveHelperComponent, ToastComponent, ToastModule],
-  providers: [MessageService]
-
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
+	standalone: true,
+	imports: [
+		CommonModule,
+		NgClass,
+		RouterOutlet,
+		ResponsiveHelperComponent,
+		ToastComponent,
+		ToastModule,
+	],
+	providers: [MessageService],
 })
 export class AppComponent {
-  title = 'Employment Monitor';
+	title = 'Employment Monitor';
 
-  constructor(public themeService: ThemeService) { }
+	constructor(public themeService: ThemeService) {}
 }

@@ -1,6 +1,13 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, Output, type OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+	FormGroup,
+	FormArray,
+	FormBuilder,
+	Validators,
+	FormsModule,
+	ReactiveFormsModule,
+} from '@angular/forms';
 import { CreateEducationDto } from '../../../dto/create-education.dto';
 import { UpdateEducationDto } from '../../../dto/update-education.dto';
 import { Subject, take, takeUntil, timer } from 'rxjs';
@@ -15,207 +22,204 @@ import { FormTextAreaComponent } from 'src/app/shared/components/form-text-area/
 import { CalendarComponent } from 'src/app/shared/components/calendar/calendar.component';
 
 @Component({
-  selector: 'app-form-education',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    FormFieldComponent,
-    ButtonComponent,
-    FormTextAreaComponent,
-    CalendarComponent
-  ],
-  templateUrl: './form-education.component.html',
-  styleUrls: [ './form-education.component.scss' ],
-  providers: [ProfileService, ToastService],
+	selector: 'app-form-education',
+	standalone: true,
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		FormsModule,
+		FormFieldComponent,
+		ButtonComponent,
+		FormTextAreaComponent,
+		CalendarComponent,
+	],
+	templateUrl: './form-education.component.html',
+	styleUrls: ['./form-education.component.scss'],
+	providers: [ProfileService, ToastService],
 })
 export class FormEducationComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
+	@Input() visible: boolean = false;
+	@Output() close = new EventEmitter<any>();
 
-  private destroyed = new Subject();
-  @Input() visible: boolean = false;
-  @Output() close = new EventEmitter<any>();
+	form!: FormGroup;
+	updateForm!: FormGroup;
+	isLoading = false;
+	isEmpty!: boolean;
+	educationId!: string;
 
-  form!: FormGroup;
-  updateForm!: FormGroup;
-  isLoading = false;
-  isEmpty!: boolean;
-  educationId!: string;
+	constructor(
+		private readonly location: Location,
+		private readonly fb: FormBuilder,
+		private readonly profileService: ProfileService,
+		private readonly toastService: ToastService,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router
+	) {
+		this.educationId = this.route.snapshot.paramMap.get('id')!;
+	}
 
-  constructor(
-    private readonly location: Location,
-    private readonly fb: FormBuilder,
-    private readonly profileService: ProfileService,
-    private readonly toastService: ToastService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router
+	ngOnInit(): void {
+		if (!this.educationId) {
+			this.formArrayInitialized();
+		} else {
+			this.updateFormInitializated();
+			this.findEducationById();
+		}
+	}
 
-  ) {
-    this.educationId = this.route.snapshot.paramMap.get('id')!;
-  }
+	findEducationById(): void {
+		if (this.educationId) {
+			this.profileService
+				.findEducation(this.educationId)
+				.pipe(takeUntil(this.destroyed))
+				.subscribe({
+					next: (data: Education) => {
+						this.form = this.fb.group({
+							education: this.prepopulateForms(data),
+						});
+					},
+				});
+		}
+	}
 
-  ngOnInit(): void {
-    if (!this.educationId) {
-      this.formArrayInitialized();
-    } else {
-      this.updateFormInitializated();
-      this.findEducationById();
-    }
-  }
+	formArrayInitialized(): void {
+		this.form = this.fb.group({
+			education: this.fb.array([this.educationFormGroup()]),
+		});
+	}
 
-  findEducationById(): void {
-    if (this.educationId) {
-      this.profileService
-        .findEducation(this.educationId)
-        .pipe(takeUntil(this.destroyed))
-        .subscribe({
-          next: (data: Education) => {
-            this.form = this.fb.group({
-              education: this.prepopulateForms(data),
-            });
-          },
-        });
-    }
-  }
+	updateFormInitializated(): void {
+		this.updateForm = this.fb.group({
+			startDate: ['', Validators.required],
+			endDate: ['', Validators.required],
+			title: ['', Validators.required],
+			institution: ['', Validators.required],
+			GPA: ['', Validators.required],
+			description: ['', Validators.required],
+		});
+	}
 
-  formArrayInitialized(): void {
-    this.form = this.fb.group({
-      education: this.fb.array([this.educationFormGroup()]),
-    });
-  }
+	protected prepopulateForms(data: any): void {
+		this.updateForm.patchValue({
+			startDate: new Date(data.startDate),
+			endDate: new Date(data.endDate),
+			title: data.title,
+			institution: data.institution,
+			GPA: data.GPA,
+			description: data.description,
+		});
+	}
 
-  updateFormInitializated(): void {
-    this.updateForm = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      title: ['', Validators.required],
-      institution: ['', Validators.required],
-      GPA: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-  }
+	educationFormGroup(): FormGroup {
+		return this.fb.group({
+			startDate: ['', Validators.required],
+			endDate: ['', Validators.required],
+			title: ['', Validators.required],
+			institution: ['', Validators.required],
+			GPA: ['', Validators.required],
+			description: ['', Validators.required],
+		});
+	}
 
-  protected prepopulateForms(data: any): void {
-    this.updateForm.patchValue({
-      startDate: new Date(data.startDate),
-      endDate: new Date(data.endDate),
-      title: data.title,
-      institution: data.institution,
-      GPA: data.GPA,
-      description: data.description,
-    });
-  }
+	get educationFormArray(): FormArray {
+		return this.form.get('education')! as FormArray;
+	}
 
-  educationFormGroup(): FormGroup {
-    return this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      title: ['', Validators.required],
-      institution: ['', Validators.required],
-      GPA: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-  }
+	get newFormValue(): CreateEducationDto[] {
+		return this.form.value.education;
+	}
 
-  get educationFormArray(): FormArray {
-    return this.form.get('education')! as FormArray;
-  }
+	get updatedFormValue(): UpdateEducationDto {
+		return this.updateForm.value;
+	}
 
-  get newFormValue(): CreateEducationDto[] {
-    return this.form.value.education;
-  }
+	get educationFormGroupValue(): UpdateEducationDto {
+		return this.form.value.education.find((exp: UpdateEducationDto) => exp);
+	}
 
-  get updatedFormValue(): UpdateEducationDto {
-    return this.updateForm.value;
-  }
+	educationFormGroupIndex(index: number): FormGroup {
+		const educations = this.form.get('education') as FormArray;
+		return educations.at(index) as FormGroup;
+	}
 
-  get educationFormGroupValue(): UpdateEducationDto {
-    return this.form.value.education.find((exp: UpdateEducationDto) => exp);
-  }
+	addNewForms(): void {
+		const formArray = this.form.get('education') as FormArray;
+		formArray.push(this.educationFormGroup());
+	}
 
-  educationFormGroupIndex(index: number): FormGroup {
-    const educations = this.form.get('education') as FormArray;
-    return educations.at(index) as FormGroup;
-  }
+	onSubmit(): void {
+		this.isLoading = true;
+		if (this.educationId) {
+			this.onUpdateProcess();
+		} else {
+			this.onSaveProcess();
+		}
+	}
 
-  addNewForms(): void {
-    const formArray = this.form.get('education') as FormArray;
-    formArray.push(this.educationFormGroup());
-  }
+	onSaveProcess(): void {
+		this.profileService
+			.newEducation(this.newFormValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {
+					setTimeout(() => {
+						this.isLoading = false;
+					}, 2000);
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+				complete: () => {
+					this.toastService.showSuccess('Success!', 'Successfully Created!');
+					this.navigateAfterSucceed();
+				},
+			});
+	}
 
-  onSubmit(): void {
-    this.isLoading = true;
-    if (this.educationId) {
-      this.onUpdateProcess();
-    } else {
-      this.onSaveProcess();
-    }
-  }
+	onUpdateProcess(): void {
+		this.profileService
+			.updateEducation(this.educationId, this.updatedFormValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {
+					setTimeout(() => {
+						this.isLoading = false;
+					}, 2000);
+				},
+				error: (error: HttpErrorResponse) => {
+					this.errorMessage(error);
+				},
+				complete: () => {
+					this.toastService.showSuccess('Success!', 'Successfully Updated!');
+					this.navigateAfterSucceed();
+				},
+			});
+	}
 
-  onSaveProcess(): void {
-    this.profileService
-      .newEducation(this.newFormValue)
-      .pipe(takeUntil(this.destroyed))
-      .subscribe({
-        next: () => {
-          setTimeout(() => {
-            this.isLoading = false
-          }, 2000);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.errorMessage(error);
-        },
-        complete: () => {
-          this.toastService.showSuccess('Success!', 'Successfully Created!');
-          this.navigateAfterSucceed();
-        },
-      });
-  }
+	removeForms(i: number): void {
+		const formArray = this.form.get('education') as FormArray;
+		formArray.removeAt(i);
+	}
 
-  onUpdateProcess(): void {
-    this.profileService
-      .updateEducation(this.educationId, this.updatedFormValue)
-      .pipe(takeUntil(this.destroyed))
-      .subscribe({
-        next: () => {
-          setTimeout(() => {
-            this.isLoading = false
-          }, 2000);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.errorMessage(error);
-        },
-        complete: () => {
-          this.toastService.showSuccess('Success!', 'Successfully Updated!');
-          this.navigateAfterSucceed();
-        },
-      });
-  }
+	private errorMessage(error: HttpErrorResponse): void {
+		this.toastService.showError('Error!', error.message);
+	}
 
-  removeForms(i: number): void {
-    const formArray = this.form.get('education') as FormArray;
-    formArray.removeAt(i);
-  }
+	navigateAfterSucceed(): void {
+		timer(1000)
+			.pipe(take(1))
+			.subscribe(() => {
+				this.router.navigateByUrl('/profile');
+			});
+	}
 
-  private errorMessage(error: HttpErrorResponse): void {
-    this.toastService.showError('Error!', error.message);
-  }
+	goBack(): void {
+		this.location.back();
+	}
 
-  navigateAfterSucceed(): void {
-    timer(1000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigateByUrl('/profile');
-      });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed.next(true);
-    this.destroyed.complete();
-  }
-
+	ngOnDestroy(): void {
+		this.destroyed.next(true);
+		this.destroyed.complete();
+	}
 }

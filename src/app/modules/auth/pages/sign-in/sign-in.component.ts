@@ -1,4 +1,11 @@
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -13,96 +20,97 @@ import { MessageService } from 'primeng/api';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-sign-in',
-    templateUrl: './sign-in.component.html',
-    styleUrls: ['./sign-in.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink,
-        AngularSvgIconModule,
-        NgClass,
-        NgIf,
-        FormFieldComponent
-    ],
-  providers: [AuthenticationService, ToastService],
+	selector: 'app-sign-in',
+	templateUrl: './sign-in.component.html',
+	styleUrls: ['./sign-in.component.scss'],
+	standalone: true,
+	imports: [
+		FormsModule,
+		ReactiveFormsModule,
+		RouterLink,
+		AngularSvgIconModule,
+		NgClass,
+		NgIf,
+		FormFieldComponent,
+	],
+	providers: [AuthenticationService, ToastService],
 })
 export class SignInComponent implements OnInit {
-  form!: FormGroup;
-  submitted = false;
-  passwordTextType!: boolean;
+	form!: FormGroup;
+	submitted = false;
+	passwordTextType!: boolean;
 
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly authService: AuthenticationService,
-    private readonly toastService: ToastService) {}
+	constructor(
+		private readonly formBuilder: FormBuilder,
+		private readonly router: Router,
+		private readonly authService: AuthenticationService,
+		private readonly toastService: ToastService
+	) {}
 
-  ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
-  }
+	ngOnInit(): void {
+		this.form = this.formBuilder.group({
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', Validators.required],
+		});
+	}
 
-  get f() {
-    return this.form.controls;
-  }
+	get f() {
+		return this.form.controls;
+	}
 
-  get formCtrlValue(): Login {
-    return {
-      email: this.form.get('email')?.value,
-      password: this.form.get('password')?.value,
-    };
-  }
+	get formCtrlValue(): Login {
+		return {
+			email: this.form.get('email')?.value,
+			password: this.form.get('password')?.value,
+		};
+	}
 
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
-  }
+	togglePasswordTextType() {
+		this.passwordTextType = !this.passwordTextType;
+	}
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.login();
-    } else {
-      this.markAllFormControlsAsTouched(this.form);
-    }
-  }
+	onSubmit() {
+		if (this.form.valid) {
+			this.login();
+		} else {
+			this.markAllFormControlsAsTouched(this.form);
+		}
+	}
 
-  login(): void {
-    this.authService.login(this.formCtrlValue).subscribe({
-      next: () => {
-        this.successMessage();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.errorMessage(error);
-      },
-      complete: () => {
-        this.navigateAfterSucceed();
-      }
-    });
-  }
+	login(): void {
+		this.authService.login(this.formCtrlValue).subscribe({
+			next: () => {
+				this.successMessage();
+			},
+			error: (error: HttpErrorResponse) => {
+				this.errorMessage(error);
+			},
+			complete: () => {
+				this.navigateAfterSucceed();
+			},
+		});
+	}
 
-  navigateAfterSucceed(): void {
-    timer(1000)
-      .pipe(take(1))
-      .subscribe(() => this.router.navigateByUrl('/'));
-  }
+	navigateAfterSucceed(): void {
+		timer(1000)
+			.pipe(take(1))
+			.subscribe(() => this.router.navigateByUrl('/'));
+	}
 
-  markAllFormControlsAsTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach((control: AbstractControl) => {
-      control.markAsTouched();
-      if (control instanceof FormGroup) {
-        this.markAllFormControlsAsTouched(control);
-      }
-    });
-  }
+	markAllFormControlsAsTouched(formGroup: FormGroup): void {
+		Object.values(formGroup.controls).forEach((control: AbstractControl) => {
+			control.markAsTouched();
+			if (control instanceof FormGroup) {
+				this.markAllFormControlsAsTouched(control);
+			}
+		});
+	}
 
-  successMessage(): void {
-    this.toastService.showSuccess('Success!', 'logged in successfully');
-  }
+	successMessage(): void {
+		this.toastService.showSuccess('Success!', 'logged in successfully');
+	}
 
-  errorMessage(error: HttpErrorResponse): void {
-    this.toastService.showError('Error!', error.message);
-  }
+	errorMessage(error: HttpErrorResponse): void {
+		this.toastService.showError('Error!', error.message);
+	}
 }

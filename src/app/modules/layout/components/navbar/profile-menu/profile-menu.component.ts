@@ -6,31 +6,27 @@ import { RouterLink } from '@angular/router';
 import { UserProfile } from '../../../domain/entities/user-profile';
 
 @Component({
-    selector: 'app-profile-menu',
-    templateUrl: './profile-menu.component.html',
-    styleUrls: ['./profile-menu.component.scss'],
-    standalone: true,
-    imports: [
-        ClickOutsideDirective,
-        NgClass,
-        RouterLink,
-    ],
+	selector: 'app-profile-menu',
+	templateUrl: './profile-menu.component.html',
+	styleUrls: ['./profile-menu.component.scss'],
+	standalone: true,
+	imports: [ClickOutsideDirective, NgClass, RouterLink],
 })
 export class ProfileMenuComponent implements OnInit {
-  public isMenuOpen = false;
+	public isMenuOpen = false;
 
-  @Input() user!: UserProfile;
-  @Output() clicked = new EventEmitter<void>();
+	@Input() user!: UserProfile;
+	@Output() clicked = new EventEmitter<void>();
 
-  logout(): void {
-    this.clicked.emit();
-  }
+	logout(): void {
+		this.clicked.emit();
+	}
 
-  constructor() {}
+	constructor() {}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 
-  public toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
+	public toggleMenu(): void {
+		this.isMenuOpen = !this.isMenuOpen;
+	}
 }
