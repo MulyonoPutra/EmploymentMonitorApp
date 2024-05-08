@@ -1,0 +1,6 @@
+<div class="relative" [formGroup]="formGroup">
+  <p-editor [formControlName]="fieldName" [style]="{ height: '320px' }" />
+  @if (isInvalid) {
+  <div class="errors-message">{{ errorMessage }}</div>
+  }
+</div>

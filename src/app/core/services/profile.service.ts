@@ -38,8 +38,14 @@ export class ProfileService {
   }
 
   updateProfile(userId: string, body: UpdateUserDto): Observable<UpdateUserDto> {
+    const token = this.storageService.getAccessToken();
     return this.http
-      .patch<HttpResponseEntity<UpdateUserDto>>(`${this.env}/user/${userId}`, body)
+      .patch<HttpResponseEntity<UpdateUserDto>>(`${this.env}/profile/${userId}`,
+        body , {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },)
       .pipe(
         map((response) => response.data),
         catchError((error: HttpErrorResponse) => handlerHttpError(error))

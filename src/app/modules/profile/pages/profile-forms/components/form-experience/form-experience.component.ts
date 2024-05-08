@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output, type OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, type OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, timer, take } from 'rxjs';
@@ -13,6 +13,7 @@ import { FormTextAreaComponent } from 'src/app/shared/components/form-text-area/
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { CreateExperienceDto } from '../../../dto/create-experience.dto';
 import { UpdateExperienceDto } from '../../../dto/update-experience.dto';
+import { EditorComponent } from 'src/app/shared/components/editor/editor.component';
 
 @Component({
   selector: 'app-form-experience',
@@ -24,7 +25,8 @@ import { UpdateExperienceDto } from '../../../dto/update-experience.dto';
     FormFieldComponent,
     ButtonComponent,
     FormTextAreaComponent,
-    CalendarComponent
+    CalendarComponent,
+    EditorComponent
   ],
   templateUrl: './form-experience.component.html',
   styleUrls: [ './form-experience.component.scss' ],

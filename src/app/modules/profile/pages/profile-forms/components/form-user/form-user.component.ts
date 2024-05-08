@@ -5,12 +5,13 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, Forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { CardModule } from 'primeng/card';
-import { Subject, timer, take } from 'rxjs';
+import { Subject, timer, take, takeUntil } from 'rxjs';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { UpdateUserDto } from 'src/app/modules/profile/domain/dto/update-user.dto';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { CalendarComponent } from 'src/app/shared/components/calendar/calendar.component';
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
+import { FormTextAreaComponent } from 'src/app/shared/components/form-text-area/form-text-area.component';
 import { WrapperContentComponent } from 'src/app/shared/components/wrapper-content/wrapper-content.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
@@ -27,7 +28,8 @@ import { ValidationService } from 'src/app/shared/services/validation.service';
     FormFieldComponent,
     WrapperContentComponent,
     ButtonComponent,
-    CalendarComponent
+    CalendarComponent,
+    FormTextAreaComponent
   ],
   templateUrl: './form-user.component.html',
   styleUrls: [ './form-user.component.scss' ],
@@ -110,14 +112,37 @@ export class FormUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.isLoading = true;
+    if (this.routeId) {
+      this.onUpdateProcess();
+    }
+  }
 
-  };
+  onUpdateProcess(): void {
+    this.profileService
+      .updateProfile(this.routeId, this.formCtrlValue)
+      .pipe(takeUntil(this.destroyed))
+      .subscribe({
+        next: () => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 2000);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.errorMessage(error);
+        },
+        complete: () => {
+          this.navigateAfterSucceed('Successfully Updated!');
+        },
+      });
+  }
 
   navigateAfterSucceed(message: string): void {
     timer(3000)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigateByUrl('/profile').then(() => {
+          window.location.reload();
           this.successMessage(message);
         })
       });
