@@ -3,7 +3,7 @@
 }
 
 .avatar {
-	@apply mx-auto flex w-full justify-center;
+	@apply relative mx-auto flex w-full justify-center text-center;
 
 	img {
 		@apply relative rounded-full object-cover shadow-xl outline outline-2 outline-offset-2 outline-yellow-500 sm:bottom-[5rem] sm:h-[10rem] sm:w-[10rem] md:bottom-[2rem] md:h-[12rem] md:w-[12rem] lg:bottom-[8rem] lg:h-[16rem] lg:w-[16rem] xl:bottom-[7rem] xl:h-[16rem] xl:w-[16rem];
@@ -26,4 +26,39 @@
 	.p-confirm-dialog-accept {
 		@apply flex-none rounded-md bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600;
 	}
+}
+
+.image-container {
+	// position: relative;
+	display: inline-block;
+	text-align: center;
+}
+
+.select-profile-picture {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	opacity: 0;
+	width: 100%;
+	cursor: pointer;
+}
+
+.message {
+	color: white;
+	text-shadow: 2px;
+	font-size: 14px;
+	font-weight: 600;
+	position: absolute;
+	width: 90%;
+	top: 10%;
+	left: 50%;
+	transform: translate(-50%, 100%);
+	transition: all 1s;
+	opacity: 0;
+}
+
+.image-container:hover .message {
+	transform: translate(-50%, -50%);
+	opacity: 1;
 }

@@ -1,15 +1,7 @@
 <div class="card z-0">
-  <p-table
-    #dt
-    styleClass="p-datatable-striped"
-    [value]="data"
-    [paginator]="true"
-    [rows]="rows"
-    [showCurrentPageReport]="true"
-    [globalFilterFields]="search"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[5, 10, 20]">
+  <p-table #dt styleClass="p-datatable-striped" [value]="data" [paginator]="true" [rows]="rows"
+    [showCurrentPageReport]="true" [globalFilterFields]="search" [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5, 10, 20]">
     <ng-template pTemplate="caption">
       <div class="grid grid-cols-1 gap-4">
         <div class="col-start-1 col-end-3">
@@ -28,22 +20,31 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let column of columns" [style.width]="column.width">{{ column.header }}</th>
+        @for (column of columns; track $index) {
+        <th [style.width]="column.width" [pSortableColumn]="column.field">
+          <div class="flex space-x-0">
+            <div>{{ column.header }}</div>
+            <div><p-sortIcon [field]="column.field"></p-sortIcon></div>
+          </div>
+        </th>
+        }
         <th style="width: 10%">Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
       <tr>
         @for (column of columns; track $index) {
-          @if(rowData[column.field] === rowData.id) {
-            <td class="text-sm">{{ rowData[column.field] | appTextOverflow: 10 }}</td>
-          } @else if (rowData[column.field] === rowData.appliedOn) {
-            <td class="text-sm">{{ rowData[column.field] | date: 'dd/MM/yyyy' }}</td>
-          } @else if (rowData[column.field] === rowData.status) {
-            <app-tag [status]="rowData[column.field]"></app-tag>
-          } @else {
-            <td class="text-sm">{{ rowData[column.field] }}</td>
-          }
+        @if(rowData[column.field] === rowData.id) {
+        <td class="text-sm">{{ rowData[column.field] | appTextOverflow: 10 }}</td>
+        } @else if (rowData[column.field] === rowData.appliedOn) {
+        <td class="text-sm">{{ rowData[column.field] | date: 'dd/MM/yyyy' }}</td>
+        } @else if (rowData[column.field] === rowData.status) {
+        <app-tag [status]="rowData[column.field]"></app-tag>
+        } @else if (rowData[column.field] === rowData.platform) {
+        <app-tag [platform]="rowData[column.field]"></app-tag>
+        } @else {
+        <td class="text-sm">{{ rowData[column.field] }}</td>
+        }
         }
         <td>
           <button (click)="onUpdate(rowData)" pButton pRipple type="button" icon="pi pi-pencil"></button>

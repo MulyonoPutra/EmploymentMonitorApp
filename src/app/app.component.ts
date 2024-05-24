@@ -1,6 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';

@@ -60,6 +60,7 @@ export class ActivityFormsComponent implements OnInit, OnDestroy {
 	status!: Status[];
 	jobTypes!: JobType[];
 	platforms!: Platform[];
+	position = ['Quality Assurance', 'Frontend Developer', 'Full Stack Developer'];
 
 	constructor(
 		private readonly fb: FormBuilder,

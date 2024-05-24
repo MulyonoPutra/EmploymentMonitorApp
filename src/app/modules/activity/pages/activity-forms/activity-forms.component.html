@@ -7,7 +7,12 @@
             <app-form-field [formGroup]="form" [label]="'Company Name'" fieldName="companyName" />
           </div>
           <div>
-            <app-form-field [formGroup]="form" [label]="'Position'" fieldName="position" />
+             <app-dropdown
+              [formGroup]="form"
+              [label]="'Position'"
+              fieldName="position"
+              placeholder="Select Position"
+              [data]="position" />
           </div>
           <div>
             <app-form-field [formGroup]="form" [label]="'Location'" fieldName="location" />

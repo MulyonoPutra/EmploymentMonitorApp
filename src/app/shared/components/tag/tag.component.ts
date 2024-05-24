@@ -11,5 +11,6 @@ import { TagModule } from 'primeng/tag';
 	styleUrls: ['./tag.component.scss'],
 })
 export class TagComponent {
-	@Input() status!: string;
+	@Input() status?: string;
+	@Input() platform?: string;
 }

@@ -1,3 +1,10 @@
 :host {
 	display: block;
 }
+
+.color {
+	@apply me-2 rounded px-2.5 py-0.5 text-xs font-semibold;
+	&-jobstreet {
+		@apply bg-blue-800 text-xs text-white dark:bg-blue-900 dark:text-blue-300;
+	}
+}

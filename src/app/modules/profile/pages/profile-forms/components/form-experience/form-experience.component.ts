@@ -18,8 +18,8 @@ import { CalendarComponent } from 'src/app/shared/components/calendar/calendar.c
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
 import { FormTextAreaComponent } from 'src/app/shared/components/form-text-area/form-text-area.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { CreateExperienceDto } from '../../../dto/create-experience.dto';
-import { UpdateExperienceDto } from '../../../dto/update-experience.dto';
+import { CreateExperienceDto } from '../../../../domain/dto/create-experience.dto';
+import { UpdateExperienceDto } from '../../../../domain/dto/update-experience.dto';
 import { EditorComponent } from 'src/app/shared/components/editor/editor.component';
 
 @Component({

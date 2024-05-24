@@ -1,15 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 
-import { CreateEducationDto } from 'src/app/modules/profile/pages/dto/create-education.dto';
-import { CreateExperienceDto } from 'src/app/modules/profile/pages/dto/create-experience.dto';
+import { CreateEducationDto } from 'src/app/modules/profile/domain/dto/create-education.dto';
+import { CreateExperienceDto } from 'src/app/modules/profile/domain/dto/create-experience.dto';
 import { Education } from 'src/app/modules/profile/domain/entities/education';
 import { Experience } from 'src/app/modules/profile/domain/entities/experience';
 import { HttpResponseEntity } from '../models/http-response-entity';
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { UpdateEducationDto } from 'src/app/modules/profile/pages/dto/update-education.dto';
-import { UpdateExperienceDto } from 'src/app/modules/profile/pages/dto/update-experience.dto';
+import { UpdateEducationDto } from 'src/app/modules/profile/domain/dto/update-education.dto';
+import { UpdateExperienceDto } from 'src/app/modules/profile/domain/dto/update-experience.dto';
 import { UpdateUserDto } from 'src/app/modules/profile/domain/dto/update-user.dto';
 import { User } from 'src/app/modules/profile/domain/entities/user';
 import { handlerHttpError } from '../utils/http-handle-error';
@@ -127,5 +127,14 @@ export class ProfileService {
 				map((response) => response.message),
 				catchError((error: HttpErrorResponse) => handlerHttpError(error))
 			);
+	}
+
+	uploadAvatar(image: FormData): Observable<any> {
+		const token = this.storageService.getAccessToken();
+		return this.http.post<any>(`${this.env}/profile/avatar`, image, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 	}
 }

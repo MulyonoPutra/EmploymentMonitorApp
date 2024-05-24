@@ -1,69 +1,99 @@
 <td class="px-4 py-6">
   @switch (status) {
-    @case ('Applied') {
-    <span class="bg-blue-100 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ status }}</span>
-    }
-    @case ('Under Review') {
-    <span
-      class="bg-blue-100 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ status }}</span>
-    }
-    @case ('Interviewing') {
-    <span
-      class="bg-yellow-100 text-yellow-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ status }}</span>
-    }
-    @case ('Offer Extended') {
-    <span
-      class="bg-indigo-100 text-indigo-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ status }}</span>
-    }
-    @case ('Offer Accepted') {
-    <span
-      class="bg-green-100 text-green-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ status }}</span>
-    }
-    @case ('Offer Declined') {
-    <span
-      class="bg-red-100 text-red-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{ status }}</span>
-    }
-    @case ('Onboarding') {
-    <span
-      class="bg-pink-100 text-pink-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">{{ status }}</span>
-    }
-    @case ('Training') {
-    <span
-      class="bg-purple-100 text-purple-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{ status }}</span>
-    }
-    @case ('Active') {
-    <span
-      class="bg-cyan-100 text-cyan-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-cyan-900 dark:text-cyan-300">{{ status }}</span>
-    }
-    @case ('Inactive') {
-    <span
-      class="bg-orange-100 text-orange-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">{{ status }}</span>
-    }
-    @case ('Withdrawn') {
-    <span
-      class="bg-teal-100 text-teal-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-teal-900 dark:text-teal-300">{{ status }}</span>
-    }
-    @case ('Cancelled') {
-    <span
-      class="bg-lime-100 text-lime-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-lime-900 dark:text-lime-300">{{ status }}</span>
-    }
-    @case ('Pending') {
-    <span
-      class="bg-amber-100 text-amber-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-amber-900 dark:text-amber-300">{{ status }}</span>
-    }
-    @case ('Final Round') {
-    <span
-      class="bg-brown-100 text-brown-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-brown-900 dark:text-brown-300">{{ status }}</span>
-    }
-    @case ('Awaiting Feedback') {
-    <span
-      class="bg-gray-100 text-gray-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300">{{ status }}</span>
-    }
-    @case ('Pending Approval') {
-    <span
-      class="bg-indigo-100 text-indigo-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ status }}</span>
-    }
-    @default { <span></span> }
+  @case ('Applied') {
+  <span
+    class="bg-blue-100 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ status }}</span>
+  }
+  @case ('Rejected') {
+  <span
+    class="bg-red-100 text-red-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{ status }}</span>
+  }
+  @case ('Expired') {
+  <span
+    class="bg-red-100 text-red-700 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-red-800 dark:text-red-200">{{ status }}</span>
+  }
+  @case ('Under Review') {
+  <span
+    class="bg-yellow-100 text-yellow-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ status }}</span>
+  }
+  @case ('Interviewing') {
+  <span
+    class="bg-yellow-100 text-yellow-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ status }}</span>
+  }
+  @case ('Offer Extended') {
+  <span
+    class="bg-indigo-100 text-indigo-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ status }}</span>
+  }
+  @case ('Offer Accepted') {
+  <span
+    class="bg-green-100 text-green-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ status }}</span>
+  }
+  @case ('Offer Declined') {
+  <span
+    class="bg-red-100 text-red-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{ status }}</span>
+  }
+  @case ('Onboarding') {
+  <span
+    class="bg-pink-100 text-pink-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">{{ status }}</span>
+  }
+  @case ('Training') {
+  <span
+    class="bg-purple-100 text-purple-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{ status }}</span>
+  }
+  @case ('Active') {
+  <span
+    class="bg-cyan-100 text-cyan-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-cyan-900 dark:text-cyan-300">{{ status }}</span>
+  }
+  @case ('Inactive') {
+  <span
+    class="bg-orange-100 text-orange-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">{{ status }}</span>
+  }
+  @case ('Withdrawn') {
+  <span
+    class="bg-teal-100 text-teal-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-teal-900 dark:text-teal-300">{{ status }}</span>
+  }
+  @case ('Cancelled') {
+  <span
+    class="bg-lime-100 text-lime-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-lime-900 dark:text-lime-300">{{ status }}</span>
+  }
+  @case ('Pending') {
+  <span
+    class="bg-amber-100 text-amber-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-amber-900 dark:text-amber-300">{{ status }}</span>
+  }
+  @case ('Final Round') {
+  <span
+    class="bg-brown-100 text-brown-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-brown-900 dark:text-brown-300">{{ status }}</span>
+  }
+  @case ('Awaiting Feedback') {
+  <span
+    class="bg-gray-100 text-gray-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300">{{ status }}</span>
+  }
+  @case ('Pending Approval') {
+  <span
+    class="bg-indigo-100 text-indigo-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ status }}</span>
+  }
+  @default { <span></span> }
+  }
+
+  @switch (platform) {
+  @case ('Jobstreet') {
+  <span
+    class="bg-blue-800 text-white text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ platform }}</span>
+  }
+  @case ('Glints') {
+  <span
+    class="bg-gray-100 text-black text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{ platform }}</span>
+  }
+  @case ('Dealls') {
+  <span
+    class="bg-purple-100 text-purple-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{ platform }}</span>
+  }
+  @case ('LinkedIn') {
+  <span
+    class="bg-blue-100 text-blue-700 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-800 dark:text-blue-200">{{ platform }}</span>
+  }
+
+  @default { <span></span> }
   }
 
 </td>

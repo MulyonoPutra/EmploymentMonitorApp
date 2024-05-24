@@ -4,9 +4,21 @@
       <div class="col-span-4 sm:col-span-9">
         <div class="rounded-lg bg-white p-6 shadow">
           <app-button [isLoading]="isLoading" (clicked)="update(user.id)" [label]="labelButton" [type]="'save'" />
+
+          <!-- Upload Avatar -->
           <div class="avatar">
-            <img [src]="user!.avatar" alt="User Profile" />
+            <div class="image-container">
+              <label class="hoverable" for="fileInput">
+                <img [src]="url ? url : user.avatar" />
+                <div class="background"></div>
+              </label>
+              <br />
+              <input id="fileInput" type="file" class="select-profile-picture" (change)="onSelectFile($event)" />
+              <span class="message">Tap here to select your picture</span>
+            </div>
           </div>
+          <!-- Upload Avatar -->
+
           <div
             class="xs:w-[92%] relative mx-auto flex flex-col items-center justify-center gap-4 sm:w-[96%] md:w-[94%] lg:w-[90%] xl:-top-[4rem] xl:w-[80%]">
             <h1 class="text-center text-4xl font-semibold text-gray-800 dark:text-white">
@@ -21,9 +33,8 @@
             <div>
               <h2 class="mb-4 text-xl font-bold">Experience</h2>
             </div>
-            @if (user.experience.length === 0) {
             <div>
-              <button type="button" [pTooltip]="experienceTooltip">
+              <button type="button" [pTooltip]="experienceTooltip" (click)="createExperience()">
                 <i class="pi pi-plus"></i>
               </button>
               <ng-template #experienceTooltip>
@@ -32,7 +43,6 @@
                 </div>
               </ng-template>
             </div>
-            }
           </div>
           @for (experience of user.experience; track $index) {
           <div class="mb-6">
@@ -53,11 +63,6 @@
                   </button>
                 </div>
                 <div>
-                  <button type="button" (click)="createExperience()">
-                    <i class="pi pi-plus"></i>
-                  </button>
-                </div>
-                <div>
                   <button type="button" (click)="removeConfirmation($event, experience.id!, 'experience')">
                     <i class="pi pi-trash"></i>
                   </button>
@@ -67,7 +72,7 @@
             <!-- <p class="mt-2 text-sm font-normal text-gray-400">
               {{ experience.responsibilities }}
             </p> -->
-             <div class="mt-2 text-gray-400 font-normal text-sm" [innerHTML]="experience.responsibilities"></div>
+            <div class="mt-2 text-gray-400 font-normal text-sm" [innerHTML]="experience.responsibilities"></div>
           </div>
           }
 

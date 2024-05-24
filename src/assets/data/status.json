@@ -1,6 +1,8 @@
 [
 	"Applied",
+	"Rejected",
 	"Under Review",
+	"Expired",
 	"Interviewing",
 	"Offer Extended",
 	"Offer Accepted",

@@ -8,8 +8,8 @@ import {
 	FormsModule,
 	ReactiveFormsModule,
 } from '@angular/forms';
-import { CreateEducationDto } from '../../../dto/create-education.dto';
-import { UpdateEducationDto } from '../../../dto/update-education.dto';
+import { CreateEducationDto } from '../../../../domain/dto/create-education.dto';
+import { UpdateEducationDto } from '../../../../domain/dto/update-education.dto';
 import { Subject, take, takeUntil, timer } from 'rxjs';
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
 import { HttpErrorResponse } from '@angular/common/http';
