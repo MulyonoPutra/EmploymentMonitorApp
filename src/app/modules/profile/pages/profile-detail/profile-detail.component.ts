@@ -24,6 +24,7 @@ export class ProfileDetailComponent implements OnInit {
 	user!: User;
 
 	labelButton = 'Update Profile';
+	imgBase64!: string;
 
 	isLoading = false;
 
@@ -149,20 +150,29 @@ export class ProfileDetailComponent implements OnInit {
 		this.toastService.showError('Error!', message);
 	}
 
-	url: any = '';
-	onSelectFile(event: Event): void {
+	onChangeFile(event: Event): void {
 		const inputElement = event.target as HTMLInputElement;
 
 		if (inputElement.files && inputElement.files[0]) {
 			const file = inputElement.files[0];
-			const reader = new FileReader();
-
-			reader.readAsDataURL(file);
-
-			reader.onload = (event) => {
-				this.url = event.target!.result;
-				console.log(this.url);
-			};
+			this.imgBase64 = URL.createObjectURL(file);
+			this.uploadImageToServer(file);
 		}
+	}
+
+	uploadImageToServer(file: File): void {
+		const formData = new FormData();
+		formData.append('avatar', file);
+
+		this.profileService.uploadAvatar(formData).subscribe({
+			next: () => {},
+			error: (error: HttpErrorResponse) => {
+				this.errorMessage(error.message);
+			},
+			complete: () => {
+				this.successMessage(`successfully change avatar!`);
+				this.reloadAfterSucceed();
+			},
+		});
 	}
 }
