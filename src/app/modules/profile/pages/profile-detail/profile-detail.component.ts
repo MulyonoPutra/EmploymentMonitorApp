@@ -1,5 +1,5 @@
-import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, type OnInit } from '@angular/core';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { Router } from '@angular/router';
 import { Subject, take, takeUntil, timer } from 'rxjs';
@@ -10,6 +10,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
+import { FileValidationService } from 'src/app/shared/services/file-validation.service';
 
 @Component({
 	selector: 'app-profile-detail',
@@ -32,7 +33,8 @@ export class ProfileDetailComponent implements OnInit {
 		private readonly router: Router,
 		private readonly profileService: ProfileService,
 		private readonly toastService: ToastService,
-		private readonly confirmationService: ConfirmationService
+		private readonly confirmationService: ConfirmationService,
+    private readonly fileValidationService: FileValidationService
 	) {}
 
 	ngOnInit(): void {
@@ -147,6 +149,17 @@ export class ProfileDetailComponent implements OnInit {
 
 		if (inputElement.files && inputElement.files[0]) {
 			const file = inputElement.files[0];
+
+      if (!this.fileValidationService.isValidImageType(file)) {
+        this.errorMessage('Only JPG, PNG, and WebP image formats are allowed.');
+        return;
+      }
+
+      if (!this.fileValidationService.isValidFileSize(file)) {
+        this.errorMessage('Image size exceeds the limit of 5 MB.');
+        return;
+      }
+
 			this.imgBase64 = URL.createObjectURL(file);
 			this.uploadImageToServer(file);
 		}

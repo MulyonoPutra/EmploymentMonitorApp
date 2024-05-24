@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 	providedIn: 'root',
 })
 export class ValidationService {
+  
 	markAllFormControlsAsTouched(formGroup: FormGroup): void {
 		Object.values(formGroup.controls).forEach((control: AbstractControl) => {
 			control.markAsTouched();
