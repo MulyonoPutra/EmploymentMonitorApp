@@ -142,14 +142,6 @@ export class ProfileDetailComponent implements OnInit {
 		this.router.navigateByUrl(`/profile/update/${id}`, { state: this.user });
 	}
 
-	successMessage(message: string): void {
-		this.toastService.showSuccess('Success!', message);
-	}
-
-	errorMessage(message: string): void {
-		this.toastService.showError('Error!', message);
-	}
-
 	onChangeFile(event: Event): void {
 		const inputElement = event.target as HTMLInputElement;
 
@@ -175,4 +167,12 @@ export class ProfileDetailComponent implements OnInit {
 			},
 		});
 	}
+
+  successMessage(message: string): void {
+    this.toastService.showSuccess('Success!', message);
+  }
+
+  errorMessage(message: string): void {
+    this.toastService.showError('Error!', message);
+  }
 }
