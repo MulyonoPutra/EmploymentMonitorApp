@@ -1,47 +1,34 @@
-<p align="center">
-    <img src="src/assets/preview/logo.png" width="150">
-</p>
 
-<p align="center">
-    <a href="https://github.com/luciano-work/angular-tailwind/stargazers">
-        <img height= "24" src="https://img.shields.io/github/stars/luciano-work/angular-tailwind?colorA=1e1e28&colorB=c9cbff&style=for-the-badge">
-    </a>
-    <a href="https://github.com/luciano-work/angular-tailwind/issues">
-        <img height= "24" src="https://img.shields.io/github/issues/luciano-work/angular-tailwind?colorA=1e1e28&colorB=f7be95&style=for-the-badge">
-    </a>
-    <a href="https://github.com/luciano-work/angular-tailwind/contributors">
-        <img height= "24" src="https://img.shields.io/github/contributors/luciano-work/angular-tailwind?colorA=1e1e28&colorB=b1e1a6&style=for-the-badge">
-    </a>
-</p>
+# Employment Monitor
 
-#### Motivation
+The Employment Monitor App aims to assist users in managing and monitoring the job search process.
 
-For me, the best strategy for learning new skills is to practice. I have created this project to learn more about Tailwind CSS using my favorite framework (Angular). I have to tell you, Tailwind is amazing!
+## Features
 
-<b><img src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png" width="14"/> The project is not finished yet!</b>
+- Application Management: Users can add, edit, and delete their job application data, including information such as company name, position applied for, application submission date, and application status (e.g., in selection process, rejected, or accepted).
+- Filter and Search: Users can use filtering and search features to quickly find job applications based on specific criteria, such as company name, application status, or submission date.
+- User Authentication: Users can register for an account and log in securely to access the application's features. Registration requires providing basic information such as username, email, and password. Once logged in, users have access to their personalized dashboard and can securely manage their job applications and profile.
 
-See [Demo](https://at.lanno.dev) page.
+- Profile Management: Users can update their profiles with personal details, educational qualifications, work experiences, skills, and other relevant information. This feature allows users to present a comprehensive and up-to-date profile to potential employers.
 
-<p>
-  <img alt="Preview" src="src/assets/preview/preview.png">
-</p>
+- Avatar Update: Users can upload and update their profile avatars to personalize their profiles further. This feature enhances user engagement and personalization within the application.
+
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
 
 #### Versions
 
 <a href="https://angular.io"><img height= "24" src= "https://img.shields.io/badge/Angular 17-DD0031?style=for-the-badge&logo=angular&logoColor=white"></a> <a href="https://tailwindcss.com"><img height= "24" src= "https://img.shields.io/badge/Tailwind 3-0ea5e9?style=for-the-badge&logo=tailwind-css&logoColor=white"></a>
 
-#### Features
 
--   [x] Sidebar
--   [x] Dark Theme
--   [x] Navbar
--   [x] Footer
--   [x] Auth Module
--   [x] Dashboard Module
--   [x] Standalone components
--   [x] Angular Signals
--   [ ] User Module
--   [ ] Guards
 
 #### Commands
 
