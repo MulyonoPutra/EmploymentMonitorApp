@@ -15,7 +15,9 @@ The Employment Monitor App aims to assist users in managing and monitoring the j
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![screencapture-localhost-4200-activity-list-2024-05-24-09_29_04](https://github.com/MulyonoPutra/EmploymentMonitorApp/assets/50153639/d62ae55e-31bb-4d59-b764-aa1ffcb6134d)
+![screencapture-localhost-4200-activity-list-2024-05-24-09_28_48](https://github.com/MulyonoPutra/EmploymentMonitorApp/assets/50153639/dd40e95f-dc3a-408a-a9a6-fdbf77bdab38)
+![screencapture-localhost-4200-activity-forms-2024-05-24-09_29_17](https://github.com/MulyonoPutra/EmploymentMonitorApp/assets/50153639/774d9ebd-8b96-48f4-a9eb-a22e158c0932)
 
 
 ## License
