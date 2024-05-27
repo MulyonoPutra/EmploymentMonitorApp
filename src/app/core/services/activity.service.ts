@@ -21,7 +21,7 @@ export class ActivityService {
 
 	findAll(): Observable<Activity[]> {
 		return this.http
-			.get<HttpResponseEntity<Activity[]>>(`${this.env}/activity`)
+			.get<HttpResponseEntity<Activity[]>>(`${this.env}/activity/user`)
 			.pipe(map((response) => response.data));
 	}
 

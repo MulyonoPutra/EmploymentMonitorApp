@@ -16,7 +16,7 @@ export class Menu {
 					],
 				},
 				{
-					icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+					icon: 'assets/icons/heroicons/outline/list.svg',
 					label: 'Category',
 					route: '/category',
 					children: [
@@ -25,14 +25,23 @@ export class Menu {
 					],
 				},
 				{
-					icon: 'assets/icons/heroicons/outline/lock-closed.svg',
-					label: 'Activity',
+					icon: 'assets/icons/heroicons/outline/work.svg',
+					label: 'My Activity',
 					route: '/activity',
 					children: [
 						{ label: 'Activity Forms', route: '/activity/forms' },
 						{ label: 'Activity List', route: '/activity/list' },
 					],
 				},
+        // {
+        //   icon: 'assets/icons/heroicons/outline/bookmark.svg',
+        //   label: 'All Activity',
+        //   route: '/activity',
+        //   children: [
+        //     { label: 'Activity List', route: '/activity/list' },
+        //   ],
+        //   role: 'admin',
+        // },
 			],
 		},
 		// {

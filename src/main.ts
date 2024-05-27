@@ -1,4 +1,3 @@
-import { AuthInterceptor, AuthInterceptorProvider } from './app/core/interceptor/auth.interceptor';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
@@ -6,9 +5,10 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
+import { AuthInterceptor } from './app/core/interceptor/auth.interceptor';
 import { MessageService } from 'primeng/api';
+import { ToastService } from './app/shared/services/toast.service';
 import { environment } from './environments/environment';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 if (environment.production) {
 	enableProdMode();
@@ -20,6 +20,7 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
 	providers: [
 		MessageService,
+    ToastService,
 		provideAnimations(),
 		importProvidersFrom(BrowserModule, AppRoutingModule, BrowserAnimationsModule),
 		{

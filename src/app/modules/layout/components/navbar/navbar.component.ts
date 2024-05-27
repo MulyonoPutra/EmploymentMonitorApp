@@ -8,6 +8,7 @@ import { NavbarMenuComponent } from './navbar-menu/navbar-menu.component';
 import { NavbarMobileComponent } from './navbar-mobile/navbar-mobilecomponent';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { User } from 'src/app/modules/profile/domain/entities/user';
@@ -30,6 +31,7 @@ export class NavbarComponent implements OnInit {
 	user!: UserProfile;
 
 	constructor(
+    private readonly router: Router,
 		private readonly menuService: MenuService,
 		private readonly profileService: ProfileService,
 		private readonly authenticationService: AuthenticationService,
@@ -61,18 +63,18 @@ export class NavbarComponent implements OnInit {
 	}
 
 	logout(): void {
-		// const token = this.storageService.getAccessToken();
-		// this.authenticationService.logout(token).subscribe({
-		//   next: () => {
-		//     this.successMessage(`Logout Successfully!`);
-		//   },
-		//   error: (error: HttpErrorResponse) => {
-		//     console.log(error.message);
-		//     this.errorMessage(error);
-		//   },
-		// })
-		this.storageService.clear();
-		window.location.reload();
+		const token = this.storageService.getAccessToken();
+		this.authenticationService.logout(token).subscribe({
+			next: () => {
+				this.successMessage(`Logout Successfully!`);
+			},
+			error: (error: HttpErrorResponse) => {
+				this.errorMessage(error);
+			},
+			complete: () => {
+        this.router.navigateByUrl('/auth/sign-in').then(() => window.location.reload());
+			},
+		});
 	}
 
 	successMessage(message: string): void {

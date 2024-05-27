@@ -34,7 +34,7 @@ export class ProfileDetailComponent implements OnInit {
 		private readonly profileService: ProfileService,
 		private readonly toastService: ToastService,
 		private readonly confirmationService: ConfirmationService,
-    private readonly fileValidationService: FileValidationService
+		private readonly fileValidationService: FileValidationService
 	) {}
 
 	ngOnInit(): void {
@@ -150,15 +150,15 @@ export class ProfileDetailComponent implements OnInit {
 		if (inputElement.files && inputElement.files[0]) {
 			const file = inputElement.files[0];
 
-      if (!this.fileValidationService.isValidImageType(file)) {
-        this.errorMessage('Only JPG, PNG, and WebP image formats are allowed.');
-        return;
-      }
+			if (!this.fileValidationService.isValidImageType(file)) {
+				this.errorMessage('Only JPG, PNG, and WebP image formats are allowed.');
+				return;
+			}
 
-      if (!this.fileValidationService.isValidFileSize(file)) {
-        this.errorMessage('Image size exceeds the limit of 5 MB.');
-        return;
-      }
+			if (!this.fileValidationService.isValidFileSize(file)) {
+				this.errorMessage('Image size exceeds the limit of 5 MB.');
+				return;
+			}
 
 			this.imgBase64 = URL.createObjectURL(file);
 			this.uploadImageToServer(file);
@@ -181,11 +181,11 @@ export class ProfileDetailComponent implements OnInit {
 		});
 	}
 
-  successMessage(message: string): void {
-    this.toastService.showSuccess('Success!', message);
-  }
+	successMessage(message: string): void {
+		this.toastService.showSuccess('Success!', message);
+	}
 
-  errorMessage(message: string): void {
-    this.toastService.showError('Error!', message);
-  }
+	errorMessage(message: string): void {
+		this.toastService.showError('Error!', message);
+	}
 }

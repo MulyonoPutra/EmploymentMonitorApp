@@ -2,5 +2,5 @@
     [loading]="isLoading"
     [disabled]="isDisabled"
     label="{{label}}"
-    [ngClass]="type === 'save' ? 'save' : 'cancel'">
+    [ngClass]="getButtonClass()">
 </p-button>

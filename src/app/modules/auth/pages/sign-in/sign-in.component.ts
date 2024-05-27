@@ -13,6 +13,8 @@ import { take, timer } from 'rxjs';
 
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { ButtonGoogleComponent } from 'src/app/shared/components/button-google/button-google.component';
 import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Login } from '../../domain/entities/login';
@@ -31,6 +33,8 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 		NgClass,
 		NgIf,
 		FormFieldComponent,
+    ButtonComponent,
+    ButtonGoogleComponent
 	],
 	providers: [AuthenticationService, ToastService],
 })
@@ -38,6 +42,8 @@ export class SignInComponent implements OnInit {
 	form!: FormGroup;
 	submitted = false;
 	passwordTextType!: boolean;
+  isLoading!: boolean;
+  label = 'Sign In';
 
 	constructor(
 		private readonly formBuilder: FormBuilder,
@@ -69,6 +75,7 @@ export class SignInComponent implements OnInit {
 	}
 
 	onSubmit() {
+    this.isLoading = true;
 		if (this.form.valid) {
 			this.login();
 		} else {
@@ -80,6 +87,9 @@ export class SignInComponent implements OnInit {
 		this.authService.login(this.formCtrlValue).subscribe({
 			next: () => {
 				this.successMessage();
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 2000);
 			},
 			error: (error: HttpErrorResponse) => {
 				this.errorMessage(error);

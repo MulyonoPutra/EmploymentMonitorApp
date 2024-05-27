@@ -7,6 +7,7 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './shared/services/theme.service';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { ToastModule } from 'primeng/toast';
+import { ToastService } from './shared/services/toast.service';
 
 @Component({
 	selector: 'app-root',
@@ -21,7 +22,7 @@ import { ToastModule } from 'primeng/toast';
 		ToastComponent,
 		ToastModule,
 	],
-	providers: [MessageService],
+	providers: [MessageService, ToastService],
 })
 export class AppComponent {
 	title = 'Employment Monitor';

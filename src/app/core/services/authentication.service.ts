@@ -49,17 +49,19 @@ export class AuthenticationService {
 	}
 
 	logout(accessToken: string): Observable<any> {
+    const endpoint = `${this.env}/auth/logout`;
+    if (!accessToken) {
+			return throwError(() => console.error('Access token not found!'));
+		}
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
 		return this.http
-			.post(`${this.env}/auth/logout`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
-			.pipe(catchError((error: HttpErrorResponse) => handlerHttpError(error)));
+			.post(endpoint, {}, { headers: headers })
+      .pipe(map(() => this.storageService.clear()),
+      catchError((error: HttpErrorResponse) => handlerHttpError(error)));
 	}
 
 	generateRefreshToken(refreshToken: string): Observable<HttpResponseEntity<Credentials>> {
-		// const refreshToken = this.storageService.getRefreshToken();
 		if (!refreshToken) {
 			return throwError(() => console.error('Refresh token not found!'));
 		}
